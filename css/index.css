@@ -1,0 +1,21 @@
+body {
+    margin: 0px;
+    overflow: hidden;
+}
+.object {
+    background: blue;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+.canvas {
+    background: #F99;
+    position: relative;
+    top: -1000px;
+    left: -1000px;
+    width: 2000px;
+    height: 2000px;
+    padding:1000px;
+}
