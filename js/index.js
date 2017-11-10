@@ -7,6 +7,12 @@
 
   $(".object").draggable({grid:[300,300]});
   $(".floor").draggable();
+  $("#tracker-marker").draggable(
+    {
+      grid:[58,58],
+      axis:"x",
+      containment: "#tracker-marker-container"
+    });
 
   function selectBasement() {
     floorsDiv.addClass("hidd");

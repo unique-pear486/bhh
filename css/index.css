@@ -11,6 +11,65 @@ body {
 #upper {
     z-index: 2;
 }
+#tracker {
+    top: 20px;
+    left: 20px;
+}
+#tracker-marker-container {
+    width: 775px;
+    height: 100px;
+    top: 0px;
+    position: absolute;
+}
+#tracker-marker {
+    top: 80px;
+    left: 10px;
+    position: absolute;
+}
+#haunt {
+    top: 0px;
+    left: 775px;
+    width: 225px;
+    height: 100px;
+    position: absolute;
+}
+#tile-deck {
+    top: 20px;
+    right: 20px;
+}
+#tile-upper {
+    top: 66px;
+    left: 50px;
+    height: 33px;
+    width: 100px;
+    position: absolute;
+}
+#tile-ground {
+    top: 99px;
+    left: 50px;
+    height: 33px;
+    width: 100px;
+    position: absolute;
+}
+#tile-basement {
+    top: 132px;
+    left: 50px;
+    height: 33px;
+    width: 100px;
+    position: absolute;
+}
+#event-deck {
+    top: 240px;
+    right: 20px;
+}
+#item-deck {
+    top: 340px;
+    right: 20px;
+}
+#omen-deck {
+    top: 440px;
+    right: 20px;
+}
 .ui {
     z-index: 99;
     position: fixed;
