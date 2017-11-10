@@ -3,14 +3,16 @@
     <link href="css/index.css" rel="stylesheet">
     <link href="css/jquery-ui.css" rel="stylesheet">
   <body>
-    <div class="canvas">
+    <div class="floor" id="basement">
       <div id="ob1" class="object"></div>
+    </div>
+    <div class="floor hidd" id="ground"></div>
+    <div class="floor hidd" id="upper"></div>
+    <div class="ui">
+      <h1>A Title!!!</h1>
     </div>
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.js"></script>
-    <script>
-$(".object").draggable({grid:[300,300]})
-$(".canvas").draggable()
-    </script>
+    <script src="js/index.js"></script>
   </body>
 </html>
