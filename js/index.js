@@ -14,6 +14,11 @@
       axis:"x",
       containment: "#tracker-marker-container"
     });
+  $(".attr-marker").draggable(
+    {
+     start: transformStart,
+     drag: transformDrag
+    });
 
   // Set Tile deck behaviour
   $("#tile-deck")
@@ -51,5 +56,23 @@
       console.log("getTile", options);
       return false;
     };
+  }
+
+  var mInv;
+  var oPos;
+  function transformStart(event, ui) {
+    var matrix = window.getComputedStyle($(this).parent()[0], null).transform;
+    var m = new DOMMatrix(matrix);
+    mInv = m.inverse();
+    var left = ui.position.left;
+    var top = ui.position.top;
+    oPos = m.transformPoint({x: left, y: top});
+  }
+  function transformDrag(event, ui) {
+    var left = ui.position.left - ui.originalPosition.left;
+    var top = ui.position.top - ui.originalPosition.top;
+    var p = mInv.transformPoint({x: left, y: top});
+    ui.position.left = p.x + ui.originalPosition.left;
+    ui.position.top = p.y + ui.originalPosition.top;
   }
 })(jQuery);
