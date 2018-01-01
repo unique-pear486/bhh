@@ -15,12 +15,6 @@ body {
     top: 20px;
     left: 20px;
 }
-#tracker-marker-container {
-    width: 775px;
-    height: 100px;
-    top: 0px;
-    position: absolute;
-}
 #tracker-marker {
     top: 80px;
     left: 10px;
@@ -75,13 +69,12 @@ body {
     bottom: 0px;
 }
 #speed-container{
-    border: 1px solid black;
-    top: 203px;
-    left: 6px;
+    top: 208px;
+    left: -9px;
     width: 158px;
     height: 15px;
     position: absolute;
-    transform: rotate(72deg) scale(2);
+    transform: rotate(72deg);
 }
 .ui {
     z-index: 99;

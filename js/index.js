@@ -1,5 +1,6 @@
 /* eslint-env browser */
-/* globals jQuery */
+/* globals jQuery Draggable */
+
 (function ($) {
   'use strict'
 
@@ -34,34 +35,19 @@
     };
   }
 
-  let mInv;
-  let oPos;
-  function transformStart(event, ui) {
-    const matrix = window.getComputedStyle($(this).parent()[0], null).transform;
-    const m = new DOMMatrix(matrix);
-    mInv = m.inverse();
-    const left = ui.position.left;
-    const top = ui.position.top;
-    oPos = m.transformPoint({x: left, y: top});
-  }
-  function transformDrag(event, ui) {
-    const left = ui.position.left - ui.originalPosition.left;
-    const top = ui.position.top - ui.originalPosition.top;
-    const p = mInv.transformPoint({x: left, y: top});
-    ui.position.left = p.x + ui.originalPosition.left;
-    ui.position.top = p.y + ui.originalPosition.top;
-  }
-
-  $('.object').draggable({ grid: [300, 300] });
-  $('.floor').draggable();
-  $('#tracker-marker').draggable({
-    grid: [58, 58],
+  $('.object').each(function () { new Draggable(this, { grid: [300, 300] }); });
+  $('.floor').each(function () { new Draggable(this); });
+  new Draggable($('#tracker-marker')[0], {
+    grid: [58, 1],
     axis: 'x',
-    containment: '#tracker-marker-container',
+    limits: { xmin: 0, xmax: 12 },
   });
-  $('.attr-marker').draggable({
-    start: transformStart,
-    drag: transformDrag,
+  $('.attr-marker').each(function () {
+    new Draggable(this, {
+      grid: [15, 1],
+      axis: 'x',
+      limits: { xmin: 0, xmax: 8 },
+    });
   });
 
   // Set Tile deck behaviour
