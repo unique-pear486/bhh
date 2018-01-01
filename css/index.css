@@ -27,6 +27,10 @@ body {
     height: 100px;
     position: absolute;
 }
+#floor-chooser {
+    top: 200px;
+    left: 20px;
+}
 #tile-deck {
     top: 20px;
     right: 20px;
@@ -140,6 +144,37 @@ body {
 }
 .hidd {
     display: none;
+}
+.buttons ul {
+    padding: 0px;
+}
+.buttons li {
+    display: block;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    color: #444;
+    border: 1px solid #CCC;
+    background: #FFF;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor:pointer;
+    text-align: center;
+}
+.buttons ul > li:first-child {
+    border-radius: 5px 5px 0px 0px;
+}
+.buttons ul > li:last-child {
+    border-radius: 0px 0px 5px 5px;
+}
+.buttons li:hover {
+    background: #DDD;
+}
+.buttons .btn-active {
+    background: #DDD;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.2);
+}
+.buttons .btn-active:hover {
+    background: #AAA;
 }
 .attr-marker {
     position: relative;

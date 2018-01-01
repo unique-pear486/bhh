@@ -8,20 +8,30 @@
   const basementDiv = $('#basement');
   const groundDiv = $('#ground');
   const upperDiv = $('#upper');
+  const floorButtons = $('#floor-chooser li')
+  const floorU = $('#floor-U');
+  const floorG = $('#floor-G');
+  const floorB = $('#floor-B');
   const tileImg = $('#tile-img');
 
   // Define functions
   function selectBasement() {
     floorsDiv.addClass('hidd');
+    floorButtons.removeClass('btn-active');
     basementDiv.removeClass('hidd');
+    floorB.addClass('btn-active');
   }
   function selectGround() {
     floorsDiv.addClass('hidd');
+    floorButtons.removeClass('btn-active');
     groundDiv.removeClass('hidd');
+    floorG.addClass('btn-active');
   }
   function selectUpper() {
     floorsDiv.addClass('hidd');
+    floorButtons.removeClass('btn-active');
     upperDiv.removeClass('hidd');
+    floorU.addClass('btn-active');
   }
   function setTileImg(source) {
     return () => {
@@ -34,6 +44,11 @@
       return false;
     };
   }
+
+  // Set functions of the floor buttons
+  floorU.click(selectUpper);
+  floorG.click(selectGround);
+  floorB.click(selectBasement);
 
   $('.object').each(function () { new Draggable(this, { grid: [300, 300] }); });
   $('.floor').each(function () { new Draggable(this); });
