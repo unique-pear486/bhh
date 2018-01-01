@@ -31,6 +31,10 @@ body {
     top: 20px;
     right: 20px;
 }
+.tile-type:hover {
+    box-shadow: 0 0 0 3px orange;
+    border-radius: 5px;
+}
 #tile-upper {
     top: 66px;
     left: 50px;
@@ -76,6 +80,30 @@ body {
     position: absolute;
     transform: rotate(72deg);
 }
+#might-container{
+    top: 89px;
+    left: 38px;
+    width: 158px;
+    height: 15px;
+    position: absolute;
+    transform: rotate(144deg);
+}
+#sanity-container{
+    top: 89px;
+    left: 171px;
+    width: 158px;
+    height: 15px;
+    position: absolute;
+    transform: rotate(216deg);
+}
+#knowledge-container{
+    top: 212px;
+    left: 210px;
+    width: 158px;
+    height: 15px;
+    position: absolute;
+    transform: rotate(288deg);
+}
 .ui {
     z-index: 99;
     position: fixed;
@@ -101,4 +129,5 @@ body {
 .attr-marker {
     position: relative;
     top: 0px;
+    width: 44px;
 }
