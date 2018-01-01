@@ -31,10 +31,6 @@ body {
     top: 20px;
     right: 20px;
 }
-.tile-type:hover {
-    box-shadow: 0 0 0 3px orange;
-    border-radius: 5px;
-}
 #tile-upper {
     top: 66px;
     left: 50px;
@@ -67,6 +63,14 @@ body {
 #omen-deck {
     top: 440px;
     right: 20px;
+}
+#dice {
+    top: 540px;
+    right: 100px;
+}
+#search {
+    top: 540px;
+    right: 10px;
 }
 #character {
     left: 20px;
@@ -104,6 +108,17 @@ body {
     position: absolute;
     transform: rotate(288deg);
 }
+#hand {
+    bottom: 0px;
+    left: 405px;
+    right: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+#hand img {
+    height: 250px;
+}
 .ui {
     z-index: 99;
     position: fixed;
@@ -130,4 +145,8 @@ body {
     position: relative;
     top: 0px;
     width: 44px;
+}
+.border:hover {
+    box-shadow: 0 0 0 3px orange;
+    border-radius: 5px;
 }
