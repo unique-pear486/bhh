@@ -1,5 +1,7 @@
 /* eslint-env browser */
-/* globals jQuery Draggable */
+/* globals jQuery Draggable Overlay */
+
+let overlay;
 
 (function ($) {
   'use strict'
@@ -8,7 +10,7 @@
   const basementDiv = $('#basement');
   const groundDiv = $('#ground');
   const upperDiv = $('#upper');
-  const floorButtons = $('#floor-chooser li')
+  const floorButtons = $('#floor-chooser li');
   const floorU = $('#floor-U');
   const floorG = $('#floor-G');
   const floorB = $('#floor-B');
@@ -44,6 +46,11 @@
       return false;
     };
   }
+
+  // Set up the overlay
+  $('#overlay-content').removeAttr('style');
+  overlay = new Overlay($('#overlay')[0]);
+  overlay.hide();
 
   // Set functions of the floor buttons
   floorU.click(selectUpper);

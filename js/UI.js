@@ -137,3 +137,48 @@ class Draggable {
     document.removeEventListener('mouseup', this.mouseUp);
   }
 }
+
+class Overlay {
+  constructor(el) {
+    this.el = el;
+    this.title = document.querySelector(`#${el.id} > div:nth-child(1)`);
+    this.content = document.querySelector(`#${el.id} > div:nth-child(2)`);
+    this.text = document.querySelector(`#${el.id} > div:nth-child(3)`);
+    this.exit = document.querySelector(`#${el.id} > div:nth-child(4)`);
+    this.hide = Overlay.hide.bind(this);
+
+    this.onClick = Overlay.onClick.bind(this);
+    this.exit.addEventListener('click', this.hide);
+  }
+
+  static onClick(e) {
+    if (e.target === this.el) {
+      this.hide();
+    }
+  }
+  static hide() {
+    this.el.classList.add('hidd');
+  }
+
+  display(title, content, text, showExit = false) {
+    // Clear elements
+    this.title.innerHTML = '';
+    this.content.innerHTML = '';
+    this.text.innerHTML = '';
+
+    // Set values
+    this.title.innerHTML = title;
+    if (content) { this.content.appendChild(content); }
+    this.text.innerHTML = text;
+
+    if (showExit) {
+      this.exit.classList.remove('hidd');
+      this.el.addEventListener('click', this.onClick);
+    } else {
+      this.el.removeEventListener('click', this.onClick);
+      this.exit.classList.add('hidd');
+    }
+
+    this.el.classList.remove('hidd');
+  }
+}

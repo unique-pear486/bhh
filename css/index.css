@@ -2,6 +2,30 @@ body {
     margin: 0px;
     overflow: hidden;
 }
+#overlay {
+    z-index: 500;
+    background: #333;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+}
+#overlay-title {
+    font: 400 130px/0.8 'Great Vibes', Helvetica, sans-serif;
+}
+#overlay-text {
+    width: 80%;
+    font-style: italic;
+}
+#overlay-exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 #basement {
     z-index: 0;
 }
@@ -143,7 +167,7 @@ body {
     padding:1000px;
 }
 .hidd {
-    display: none;
+    display: none !important;
 }
 .buttons ul {
     padding: 0px;
