@@ -1,88 +1,54 @@
 /* eslint-env browser */
-/* globals jQuery Draggable Overlay */
+/* globals $ Draggable Overlay Game */
 
-let overlay;
+// select ui elements
+const ui = {};
+ui.overlay = new Overlay($('#overlay')[0]);
+ui.floors = {
+  basement: $('#basement')[0],
+  ground: $('#ground')[0],
+  upper: $('#upper')[0],
+};
+ui.floorButtons = {
+  basement: $('#floor-B')[0],
+  ground: $('#floor-G')[0],
+  upper: $('#floor-U')[0],
+};
+ui.hauntTracker = {
+  marker: $('#tracker-marker')[0],
+  hauntBtn: $('#haunt')[0],
+};
+ui.tileDeck = {
+  $img: $('#tile-img'),
+  $deck: $('#tile-deck'),
+  $basement: $('#tile-basement'),
+  $ground: $('#tile-ground'),
+  $upper: $('#tile-upper'),
+};
+ui.eventDeck = $('#event-deck')[0];
+ui.itemDeck = $('#item-deck')[0];
+ui.omenDeck = $('#omen-deck')[0];
+ui.dice = $('#dice')[0];
+ui.search = $('#search')[0];
+ui.me = {
+  characterImg: $('#character > img')[0],
+  speed: $('#speed-marker')[0],
+  might: $('#might-marker')[0],
+  sanity: $('#sanity-marker')[0],
+  knowledge: $('#knowledge-marker')[0],
+};
+ui.hand = $('#hand')[0];
+
+const game = new Game(ui, {
+  tiles: { name: 'tiles', cards: [] },
+  events: { name: 'events', cards: [] },
+  items: { name: 'items', cards: [] },
+  omens: { name: 'omens', cards: [] },
+}, []);
 
 (function ($) {
   'use strict'
 
-  const floorsDiv = $('.floor');
-  const basementDiv = $('#basement');
-  const groundDiv = $('#ground');
-  const upperDiv = $('#upper');
-  const floorButtons = $('#floor-chooser li');
-  const floorU = $('#floor-U');
-  const floorG = $('#floor-G');
-  const floorB = $('#floor-B');
-  const tileImg = $('#tile-img');
+  $('.object').each(function () { new Draggable(this, { grid: [100, 100] }); });
 
-  // Define functions
-  function selectBasement() {
-    floorsDiv.addClass('hidd');
-    floorButtons.removeClass('btn-active');
-    basementDiv.removeClass('hidd');
-    floorB.addClass('btn-active');
-  }
-  function selectGround() {
-    floorsDiv.addClass('hidd');
-    floorButtons.removeClass('btn-active');
-    groundDiv.removeClass('hidd');
-    floorG.addClass('btn-active');
-  }
-  function selectUpper() {
-    floorsDiv.addClass('hidd');
-    floorButtons.removeClass('btn-active');
-    upperDiv.removeClass('hidd');
-    floorU.addClass('btn-active');
-  }
-  function setTileImg(source) {
-    return () => {
-      tileImg.attr('src', source);
-    };
-  }
-  function getTile(options) {
-    return () => {
-      console.log('getTile', options);
-      return false;
-    };
-  }
-
-  // Set up the overlay
-  $('#overlay-content').removeAttr('style');
-  overlay = new Overlay($('#overlay')[0]);
-  overlay.hide();
-
-  // Set functions of the floor buttons
-  floorU.click(selectUpper);
-  floorG.click(selectGround);
-  floorB.click(selectBasement);
-
-  $('.object').each(function () { new Draggable(this, { grid: [300, 300] }); });
-  $('.floor').each(function () { new Draggable(this); });
-  new Draggable($('#tracker-marker')[0], {
-    grid: [58, 1],
-    axis: 'x',
-    limits: { xmin: 0, xmax: 12 },
-  });
-  $('.attr-marker').each(function () {
-    new Draggable(this, {
-      grid: [15, 1],
-      axis: 'x',
-      limits: { xmin: 0, xmax: 8 },
-    });
-  });
-
-  // Set Tile deck behaviour
-  $('#tile-deck')
-    .hover(setTileImg('img/Tile_bgu.png'), setTileImg('img/Tile_.png'))
-    .click(getTile({ upper: true, ground: true, basement: true }));
-  $('#tile-upper')
-    .hover(setTileImg('img/Tile_u.png'), setTileImg('img/Tile_bgu.png'))
-    .click(getTile({ upper: true }));
-  $('#tile-ground')
-    .hover(setTileImg('img/Tile_g.png'), setTileImg('img/Tile_bgu.png'))
-    .click(getTile({ ground: true }));
-  $('#tile-basement')
-    .hover(setTileImg('img/Tile_b.png'), setTileImg('img/Tile_bgu.png'))
-    .click(getTile({ basement: true }));
 }(jQuery));

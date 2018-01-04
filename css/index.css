@@ -153,9 +153,9 @@ body {
 }
 .object {
     background: blue;
-    width: 300px;
-    height: 300px;
-    position: relative;
+    width: 100px;
+    height: 100px;
+    position: absolute;
 }
 .floor {
     background: #F99;
