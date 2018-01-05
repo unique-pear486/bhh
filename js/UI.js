@@ -48,6 +48,16 @@ class Draggable {
     this.callbacks.push(f);
   }
 
+  setIndex(index) {
+    const dx = (index.x - this.index.x) * this.grid[0];
+    const dy = (index.y - this.index.y) * this.grid[1];
+    const startX = parseInt(this.el.style.left, 10);
+    const startY = parseInt(this.el.style.top, 10);
+    this.index = index;
+    this.el.style.top = `${startY + dy}px`;
+    this.el.style.left = `${startX + dx}px`;
+  }
+
   static roundAndLimit(input, round, index, min, max) {
     // rounds the value to nearest "round", and limits the number of clicks to
     // between min and max.
