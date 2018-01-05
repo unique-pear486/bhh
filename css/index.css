@@ -114,22 +114,22 @@ body {
 }
 #might-container{
     top: 89px;
-    left: 38px;
+    left: 40px;
     width: 158px;
     height: 15px;
     position: absolute;
     transform: rotate(144deg);
 }
 #sanity-container{
-    top: 89px;
-    left: 171px;
+    top: 91px;
+    left: 173px;
     width: 158px;
     height: 15px;
     position: absolute;
     transform: rotate(216deg);
 }
 #knowledge-container{
-    top: 212px;
+    top: 216px;
     left: 210px;
     width: 158px;
     height: 15px;
@@ -208,4 +208,14 @@ body {
 .border:hover {
     box-shadow: 0 0 0 3px orange;
     border-radius: 5px;
+}
+.character-select {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 90vw;
+}
+.character-select > img {
+    width: 15vw;
 }

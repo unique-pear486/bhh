@@ -39,12 +39,75 @@ ui.me = {
 };
 ui.hand = $('#hand')[0];
 
+const characters = [
+  {
+    name: 'Brandon Jaspers',
+    img: 'img/char_Brandon_Jaspers.png',
+    token: 'img/BJ.png',
+  },
+  {
+    name: 'Darrin Williams',
+    img: 'img/char_Darrin_Williams.png',
+    token: 'img/DFW.png',
+  },
+  {
+    name: 'Father Reinhardt',
+    img: 'img/char_Father_Reinhardt.png',
+    token: 'img/FR.png',
+  },
+  {
+    name: 'Heather Granville',
+    img: 'img/char_Heather_Granville.png',
+    token: 'img/HG.png',
+  },
+  {
+    name: 'Madam Zostra',
+    img: 'img/char_Madam_Zostra.png',
+    token: 'img/MZ.png',
+  },
+  {
+    name: 'Missy Debourde',
+    img: 'img/char_Missy_Debourde.png',
+    token: 'img/MD.png',
+  },
+  {
+    name: 'Peter Akimoto',
+    img: 'img/char_Peter_Akimoto.png',
+    token: 'img/PA.png',
+  },
+  {
+    name: 'Ox Bellows',
+    img: 'img/char_Ox_Bellows.png',
+    token: 'img/OB.png',
+  },
+  {
+    name: 'Professor Longfellow',
+    img: 'img/char_Professor_Longfellow.png',
+    token: 'img/PL.png',
+  },
+  {
+    name: 'Jenny LeClerc',
+    img: 'img/char_Jenny_LeClerc.png',
+    token: 'img/JL.png',
+  },
+  {
+    name: 'Vivian Lopez',
+    img: 'img/char_Vivian_Lopez.png',
+    token: 'img/VL.png',
+  },
+  {
+    name: 'Zoe Ingstrom',
+    img: 'img/char_Zoe_Ingstrom.png',
+    token: 'img/ZI.png',
+  },
+];
+
 const game = new Game(ui, {
   tiles: { name: 'tiles', cards: [] },
   events: { name: 'events', cards: [] },
   items: { name: 'items', cards: [] },
   omens: { name: 'omens', cards: [] },
-}, []);
+}, characters);
 
 (function ($) {
   'use strict'

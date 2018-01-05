@@ -69,16 +69,18 @@ class Game {
     this.search(ui.search);
 
     // set up your character
+    this.characters = characters;
     this.me = {};
-    this.character(ui.me);
+    this.characterCard(ui.me);
     this.hand = ui.hand;
 
-    // hide the overlay and lets get started
+    // hide the overlay and choose character
     this.overlay = ui.overlay;
     setTimeout(() => {
       this.overlay.hide();
       this.overlay.content.removeAttribute('style');
-    }, 3000);
+      this.showCharacterSelect();
+    }, 500);
   }
 
   floorButtons({ basement, ground, upper }) {
@@ -182,16 +184,41 @@ class Game {
     el.addEventListener('click', searchDecks);
   }
 
-  character({ characterImg, speed, might, sanity, knowledge }) {
-    characterImg.setAttribute('src', 'img/char_Brandon_Jaspers.png');
+  characterCard({ characterImg, speed, might, sanity, knowledge }) {
     const options = {
-      grid: [15, 1],
+      grid: [15.5, 1],
       axis: 'x',
       limits: { xmin: 0, xmax: 8 },
     };
+    this.me.img = characterImg;
     this.me.speed = new Draggable(speed, options);
     this.me.might = new Draggable(might, options);
     this.me.sanity = new Draggable(sanity, options);
     this.me.knowledge = new Draggable(knowledge, options);
+  }
+
+  showCharacterSelect() {
+    let imagesLoaded = 0;
+    const div = document.createElement('div');
+    div.classList.add('character-select');
+
+    const displayOverlay = () => {
+      imagesLoaded += 1;
+      if (imagesLoaded < 6) return;
+      this.overlay.display('Choose your character', div, '', false);
+    };
+
+    this.characters.forEach((character) => {
+      const i = new Image();
+      i.classList.add('border');
+      i.onload = displayOverlay();
+      i.addEventListener('click', () => {
+        console.log(character.name);
+        this.me.img.src = character.img;
+        this.overlay.hide();
+      });
+      div.appendChild(i);
+      i.src = character.img;
+    });
   }
 }
