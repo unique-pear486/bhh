@@ -4,12 +4,29 @@
 
 
 class Deck {
-  constructor({ name, cards }) {
+  constructor(game, { name, cards }) {
+    this.game = game;
     this.name = name;
     this.cards = cards;
+    this.nextImg = new Image();
+    this.chooseNextCard();
   }
   drawCard() {
-    console.log('drawCard', this.name);
+    // make a new image and display it
+    const i = new Image();
+    i.src = this.next.filename;
+    this.game.overlay.display(this.next.name, i, '', true);
+
+    // If the card is an item or omen put it in the hand
+    if (this.name === 'items' || this.name === 'omens') {
+      this.game.hand.addCard(this.next);
+    }
+    // Refresh the next card
+    this.chooseNextCard();
+  }
+  chooseNextCard() {
+    this.next = this.cards[Math.floor(Math.random() * this.cards.length)];
+    this.nextImg.src = this.next.filename;
   }
 }
 
@@ -61,10 +78,10 @@ class Game {
     this.hauntTracker(ui.hauntTracker);
 
     // set up decks
-    this.tiles = new TileDeck(decks.tiles);
-    this.events = new Deck(decks.events);
-    this.items = new Deck(decks.items);
-    this.omens = new Deck(decks.omens);
+    this.tiles = new TileDeck(this, decks.tiles);
+    this.events = new Deck(this, decks.events);
+    this.items = new Deck(this, decks.items);
+    this.omens = new Deck(this, decks.omens);
 
     // set up tileDeck ui
     this.tileDeck(ui.tileDeck);
@@ -82,7 +99,9 @@ class Game {
     this.characters = characters;
     this.me = {};
     this.characterCard(ui.me);
-    this.hand = ui.hand;
+
+    // set up hand
+    this.setupHand(ui.hand);
 
     // hide the overlay and choose character
     this.overlay = ui.overlay;
@@ -207,6 +226,17 @@ class Game {
     this.me.knowledge = new Draggable(knowledge, options);
   }
 
+  setupHand(el) {
+    this.hand = {};
+    this.hand.el = el;
+    this.hand.cards = [];
+    this.hand.addCard = (card) => {
+      this.hand.cards.push(card);
+      const i = new Image();
+      i.src = card.filename;
+      this.hand.el.appendChild(i);
+    };
+  }
   showCharacterSelect() {
     let imagesLoaded = 0;
     const div = document.createElement('div');

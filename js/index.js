@@ -1,5 +1,6 @@
 /* eslint-env browser */
 /* globals $ Draggable Overlay Game characters */
+/* globals tiles events items omens */
 
 // select ui elements
 const ui = {};
@@ -40,15 +41,8 @@ ui.me = {
 ui.hand = $('#hand')[0];
 
 const game = new Game(ui, {
-  tiles: { name: 'tiles', cards: [] },
-  events: { name: 'events', cards: [] },
-  items: { name: 'items', cards: [] },
-  omens: { name: 'omens', cards: [] },
+  tiles: { name: 'tiles', cards: tiles },
+  events: { name: 'events', cards: events },
+  items: { name: 'items', cards: items },
+  omens: { name: 'omens', cards: omens },
 }, characters);
-
-(function ($) {
-  'use strict'
-
-  $('.object').each(function () { new Draggable(this, { grid: [100, 100] }); });
-
-}(jQuery));

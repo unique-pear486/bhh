@@ -137,13 +137,13 @@ body {
     transform: rotate(288deg);
 }
 #hand {
+    z-index: 98;
     bottom: 0px;
     left: 405px;
     right: 10px;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    pointer-events: none;
 }
 #hand img {
     height: 250px;
@@ -152,12 +152,6 @@ body {
 .ui {
     z-index: 99;
     position: fixed;
-}
-.object {
-    background: blue;
-    width: 100px;
-    height: 100px;
-    position: absolute;
 }
 .floor {
     background: #000;
