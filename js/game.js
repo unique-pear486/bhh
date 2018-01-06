@@ -21,6 +21,16 @@ class Floor {
   constructor(el) {
     this.el = el;
     this.drag = new Draggable(el);
+    this.tiles = []
+  }
+  addTile(tile) {
+    const i = new Image();
+    i.src = tile.filename;
+    this.el.appendChild(i);
+    i.style.top = '1000px';
+    i.style.left = '1000px';
+    tile.draggable = new Draggable(i, { grid: [100, 100] });
+    this.tiles.push(tile);
   }
   hide() {
     this.el.classList.add('hidd');

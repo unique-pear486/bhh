@@ -143,9 +143,11 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    pointer-events: none;
 }
 #hand img {
     height: 250px;
+    pointer-events: auto;
 }
 .ui {
     z-index: 99;
@@ -158,13 +160,17 @@ body {
     position: absolute;
 }
 .floor {
-    background: #F99;
+    background: #000;
     position: fixed;
-    top: -1000px;
-    left: -1000px;
+    top: calc(-1000px + 50vh);
+    left: calc(-1000px + 50vw);
     width: 2000px;
     height: 2000px;
-    padding:1000px;
+    padding: 1000px;
+}
+.floor > img {
+    height: 100px;
+    position: absolute;
 }
 .hidd {
     display: none !important;
