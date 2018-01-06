@@ -21,7 +21,7 @@ class Floor {
   constructor(el) {
     this.el = el;
     this.drag = new Draggable(el);
-    this.tiles = []
+    this.tiles = [];
   }
   addTile(tile) {
     const i = new Image();
