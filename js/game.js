@@ -93,6 +93,7 @@ class Game {
 
     // set up dice and search buttons
     this.dice(ui.dice);
+    this.rollDice = Game.rollDice.bind(this)  // bind event handler
     this.search(ui.search);
 
     // set up your character
@@ -199,10 +200,31 @@ class Game {
 
   dice(el) {
     // set up the dice button
-    function rollDice() {
-      console.log('rollDice');
+    const chooseDice = () => {
+      const textBox = document.createElement('input');
+      textBox.type = 'text';
+      textBox.value = '1';
+      textBox.classList.add('choose-number');
+      this.overlay.display('How many dice?', textBox, '', true);
+      textBox.select();
+      textBox.focus();
+      textBox.addEventListener('keypress', this.rollDice);
+    };
+    el.addEventListener('click', chooseDice);
+  }
+
+  static rollDice(e) {
+    if (e.keyCode === 13) {
+      const dice = parseInt(e.target.value, 10);
+      const images = ['img/dice_0.png', 'img/dice_1.png', 'img/dice_2.png'];
+      const div = document.createElement('div');
+      for (let i = 0; i < dice; i += 1) {
+        const img = new Image();
+        img.src = images[Math.floor(Math.random() * images.length)];
+        div.appendChild(img);
+      }
+      this.overlay.display(`Roll ${dice} dice:`, div, '', true);
     }
-    el.addEventListener('click', rollDice);
   }
 
   search(el) {

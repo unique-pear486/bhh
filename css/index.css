@@ -219,3 +219,7 @@ body {
 .character-select > img {
     width: 15vw;
 }
+.choose-number {
+    width: 3em;
+    font-size: large;
+}
