@@ -16,11 +16,8 @@ class Deck {
     const i = new Image();
     i.src = this.next.filename;
     this.game.overlay.display(this.next.name, i, '', true);
-
-    // If the card is an item or omen put it in the hand
-    if (this.name === 'items' || this.name === 'omens') {
-      this.game.hand.addCard(this.next);
-    }
+    // put it in the hand
+    this.game.hand.addCard(this.next);
     // Refresh the next card
     this.chooseNextCard();
   }
@@ -252,11 +249,39 @@ class Game {
     this.hand = {};
     this.hand.el = el;
     this.hand.cards = [];
+    this.hand.showCard = (img) => {
+      // Match the card based on clicked object
+      const card = this.hand.cards.find(c => (c.name === img.dataset.name));
+      if (card === undefined) return;
+      const newImg = new Image();
+      newImg.src = card.filename;
+      this.overlay.display(card.name, newImg, '', true);
+    };
+    this.hand.removeCard = (img) => {
+      // Match the card based on clicked object
+      const index = this.hand.cards.findIndex(c => (c.name === img.dataset.name));
+      if (index === -1) return;
+      // Remove card from hand
+      this.hand.cards.splice(index, 1);
+      // And remove the image from page
+      img.parentElement.removeChild(img);
+    };
     this.hand.addCard = (card) => {
+      // add to cards
       this.hand.cards.push(card);
+      // add image to page
       const i = new Image();
       i.src = card.filename;
+      i.dataset.name = card.name;
       this.hand.el.appendChild(i);
+      i.addEventListener('click', (e) => {
+        if (e.shiftKey) {
+          this.hand.showCard(e.target);
+        }
+        if (e.ctrlKey) {
+          this.hand.removeCard(e.target);
+        }
+      });
     };
   }
   showCharacterSelect() {
