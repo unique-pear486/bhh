@@ -18,7 +18,7 @@ function getTransform(el, m) {
 
 
 class Draggable {
-  constructor(el, { axis = null, grid = [1, 1], limits = {} } = {}) {
+  constructor(el, { axis = null, grid = [1, 1], limits = {}, rotate = 0 } = {}) {
     // el is a page element
     // axis must be 'x' or 'y' or undefined/null to limit movement to that axis
     // grid must be an array [x, y] (even if limited to one axis) of px per step
@@ -35,6 +35,7 @@ class Draggable {
     this.ymin = limits.ymin;
     this.xmax = limits.xmax;
     this.ymax = limits.ymax;
+    this.rotate = rotate;
     this.callbacks = [];
 
     // set top and left to 0px if not already set
@@ -120,7 +121,7 @@ class Draggable {
         this.ymax,
       );
     }
-    this.el.style.transform = `translate(${this.x}px, ${this.y}px)`;
+    this.el.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotate}deg)`;
   }
 
   static mouseUp(e) {
@@ -129,7 +130,7 @@ class Draggable {
     // (permanently) Set transformation
     const x = this.startX + this.x;
     const y = this.startY + this.y;
-    this.el.style.transform = '';
+    this.el.style.transform = `rotate(${this.rotate}deg)`;
     this.el.style.left = `${x}px`;
     this.el.style.top = `${y}px`;
 
@@ -145,6 +146,13 @@ class Draggable {
     // Remove listener
     document.removeEventListener('mousemove', this.mouseMove);
     document.removeEventListener('mouseup', this.mouseUp);
+  }
+  get rotate() {
+    return this._rotate;
+  }
+  set rotate(val) {
+    this._rotate = val;
+    this.el.style.transform = `rotate(${val}deg)`;
   }
 }
 

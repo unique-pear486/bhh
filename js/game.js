@@ -32,10 +32,35 @@ class TileDeck extends Deck {
 
 
 class Floor {
-  constructor(el) {
+  constructor(game, el) {
+    this.game = game;
     this.el = el;
     this.drag = new Draggable(el);
     this.tiles = [];
+    this.showTile = (img) => {
+      // Match the tile based on clicked image
+      const tile = this.tiles.find(t => (t.name === img.dataset.name));
+      if (tile === undefined) return;
+      const newImg = new Image();
+      newImg.src = tile.filename;
+      this.game.overlay.display(tile.name, newImg, '', true);
+    };
+    this.removeTile = (img) => {
+      // Match the tile based on clicked image
+      const index = this.tiles.findIndex(c => (c.name === img.dataset.name));
+      if (index === -1) return;
+      // Remove card from hand
+      this.tiles.splice(index, 1);
+      // And remove the image from page
+      img.parentElement.removeChild(img);
+    };
+    this.rotateTile = (img) => {
+      // Match the tile based on clicked image
+      const tile = this.tiles.find(t => (t.name === img.dataset.name));
+      if (tile === undefined) return;
+      tile.rotate += 90;
+      tile.draggable.rotate = tile.rotate;
+    };
   }
   addTile(tile) {
     const i = new Image();
@@ -43,7 +68,22 @@ class Floor {
     this.el.appendChild(i);
     i.style.top = '1000px';
     i.style.left = '1000px';
+    i.dataset.name = tile.name;
+    i.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.shiftKey && !e.ctrlKey) {
+        this.showTile(e.target);
+      }
+      if (e.ctrlKey && !e.shiftKey) {
+        this.removeTile(e.target);
+      }
+      if (e.shiftKey && e.ctrlKey) {
+        this.rotateTile(e.target);
+      }
+    });
     tile.draggable = new Draggable(i, { grid: [100, 100] });
+    tile.rotate = 0;
     this.tiles.push(tile);
   }
   hide() {
@@ -61,9 +101,9 @@ class Game {
 
     // set up floors
     this.floor = {};
-    this.floor.basement = new Floor(ui.floors.basement);
-    this.floor.ground = new Floor(ui.floors.ground);
-    this.floor.upper = new Floor(ui.floors.upper);
+    this.floor.basement = new Floor(this, ui.floors.basement);
+    this.floor.ground = new Floor(this, ui.floors.ground);
+    this.floor.upper = new Floor(this, ui.floors.upper);
     this.floor.forEach = (fn) => {
       [this.floor.basement, this.floor.ground, this.floor.upper].forEach(fn);
     };
@@ -275,6 +315,8 @@ class Game {
       i.dataset.name = card.name;
       this.hand.el.appendChild(i);
       i.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (e.shiftKey) {
           this.hand.showCard(e.target);
         }
