@@ -28,6 +28,23 @@ class Deck {
 }
 
 class TileDeck extends Deck {
+  constructor(game, deck) {
+    super(game, deck);
+    this.upper = this.cards.filter(card => (card.upper === 1));
+    this.ground = this.cards.filter(card => (card.ground === 1));
+    this.basement = this.cards.filter(card => (card.basement === 1));
+  }
+  drawCard(options) {
+    console.log(options);
+    // make a new image and display it
+    const i = new Image();
+    i.src = this.next.filename;
+    this.game.overlay.display(this.next.name, i, '', true);
+    // put it on the selected floor
+    this.game.floor.selected.addTile(this.next);
+    // Refresh the next card
+    this.chooseNextCard();
+  }
 }
 
 
@@ -107,6 +124,7 @@ class Game {
     this.floor.forEach = (fn) => {
       [this.floor.basement, this.floor.ground, this.floor.upper].forEach(fn);
     };
+    this.floor.selected = this.floor.ground;
 
     // set up floorButton ui
     this.floorButtons(ui.floorButtons);
@@ -157,6 +175,7 @@ class Game {
       // show only selected floor
       floors.forEach(f => f.hide());
       floor.show();
+      floors.selected = floor;
 
       // highlight pressed button
       [basement, ground, upper].forEach(b => b.classList.remove('btn-active'));
@@ -200,12 +219,12 @@ class Game {
     function setTileImg(src) {
       return () => $img.attr('src', src);
     }
-    function getTile(options) {
-      return () => {
-        console.log('getTile', options);
-        return false;
-      };
-    }
+    const getTile = options => (
+      (e) => {
+        e.stopPropagation();
+        this.tiles.drawCard(options);
+      }
+    );
     $deck
       .hover(setTileImg('img/Tile_bgu.png'), setTileImg('img/Tile_.png'))
       .click(getTile({ upper: true, ground: true, basement: true }));
