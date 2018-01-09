@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* globals Draggable */
+/* globals Draggable Fuse */
 'use strict';
 
 
@@ -182,6 +182,7 @@ class Game {
     this.events = new Deck(this, decks.events);
     this.items = new Deck(this, decks.items);
     this.omens = new Deck(this, decks.omens);
+    this.pieces = new Deck(this, decks.pieces);
 
     // set up tileDeck ui
     this.tileDeck(ui.tileDeck);
@@ -193,7 +194,7 @@ class Game {
 
     // set up dice and search buttons
     this.dice(ui.dice);
-    this.rollDice = Game.rollDice.bind(this)  // bind event handler
+    this.rollDice = Game.rollDice.bind(this); // bind event handler
     this.search(ui.search);
 
     // set up your character
@@ -329,10 +330,81 @@ class Game {
   }
 
   search(el) {
+    this.search = {};
+    // Set up Fuse search
+    const options = {
+      shouldSort: true,
+      threshold: 0.3,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: ['name', 'type'],
+    };
+    this.search.allItems = []
+      .concat(this.tiles.cards)
+      .concat(this.events.cards)
+      .concat(this.items.cards)
+      .concat(this.omens.cards)
+      .concat(this.pieces.cards);
+    this.search.fuse = new Fuse(this.search.allItems, options);
+    // create a method to add the item when clicked
+    const addItem = (e) => {
+      // find the result clicked
+      const item = this.search.results[e.target.dataset.index];
+      if (item == null) return;
+      switch (item.type) {
+        case 'tiles':
+          this.floor.selected.addTile(item);
+          break;
+        case 'events':
+        case 'items':
+        case 'omens':
+          this.hand.addCard(item);
+          break;
+        default:
+          console.log(`other: ${item.type}`);
+      }
+      this.overlay.hide();
+    };
+
+    // create a method to render the search results into a ul
+    const renderResults = (e) => {
+      // Clear old results
+      while (this.search.resultList.hasChildNodes()) {
+        this.search.resultList.removeChild(this.search.resultList.lastChild);
+      }
+      // fill in new results
+      this.search.results = this.search.fuse.search(e.target.value);
+      this.search.results.forEach((item, index) => {
+        if (index > 10) {
+          return;
+        }
+        const li = document.createElement('li');
+        li.dataset.index = index;
+        li.innerHTML = item.name;
+        this.search.resultList.appendChild(li);
+        li.addEventListener('click', addItem);
+      });
+    };
+
     // set up the search button
-    function searchDecks() {
-      console.log('searchDecks');
-    }
+    const searchDecks = () => {
+      // create a searchbox
+      const textBox = document.createElement('input');
+      textBox.type = 'text';
+      textBox.classList.add('item-search');
+
+      // Display an overlay
+      this.overlay.display('Search...', textBox, '', true);
+      textBox.select();
+      textBox.focus();
+
+      // Add results on keypress
+      this.search.resultList = document.createElement('ul');
+      this.overlay.text.appendChild(this.search.resultList);
+      textBox.addEventListener('input', renderResults);
+    };
     el.addEventListener('click', searchDecks);
   }
 

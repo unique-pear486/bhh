@@ -3,61 +3,73 @@ const characters = [
     name: 'Brandon Jaspers',
     img: 'img/char_Brandon_Jaspers.png',
     token: 'img/BJ.png',
+    type: 'characters',
   },
   {
     name: 'Darrin Williams',
     img: 'img/char_Darrin_Williams.png',
     token: 'img/DFW.png',
+    type: 'characters',
   },
   {
     name: 'Father Reinhardt',
     img: 'img/char_Father_Reinhardt.png',
     token: 'img/FR.png',
+    type: 'characters',
   },
   {
     name: 'Heather Granville',
     img: 'img/char_Heather_Granville.png',
     token: 'img/HG.png',
+    type: 'characters',
   },
   {
     name: 'Madam Zostra',
     img: 'img/char_Madam_Zostra.png',
     token: 'img/MZ.png',
+    type: 'characters',
   },
   {
     name: 'Missy Debourde',
     img: 'img/char_Missy_Debourde.png',
     token: 'img/MD.png',
+    type: 'characters',
   },
   {
     name: 'Peter Akimoto',
     img: 'img/char_Peter_Akimoto.png',
     token: 'img/PA.png',
+    type: 'characters',
   },
   {
     name: 'Ox Bellows',
     img: 'img/char_Ox_Bellows.png',
     token: 'img/OB.png',
+    type: 'characters',
   },
   {
     name: 'Professor Longfellow',
     img: 'img/char_Professor_Longfellow.png',
     token: 'img/PL.png',
+    type: 'characters',
   },
   {
     name: 'Jenny LeClerc',
     img: 'img/char_Jenny_LeClerc.png',
     token: 'img/JL.png',
+    type: 'characters',
   },
   {
     name: 'Vivian Lopez',
     img: 'img/char_Vivian_Lopez.png',
     token: 'img/VL.png',
+    type: 'characters',
   },
   {
     name: 'Zoe Ingstrom',
     img: 'img/char_Zoe_Ingstrom.png',
     token: 'img/ZI.png',
+    type: 'characters',
   },
 ];
 
@@ -72,6 +84,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -83,6 +96,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -94,6 +108,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -105,6 +120,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -116,6 +132,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -127,6 +144,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -138,6 +156,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -149,6 +168,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -160,6 +180,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -171,6 +192,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -182,6 +204,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -193,6 +216,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -204,6 +228,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -215,6 +240,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -226,6 +252,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -237,6 +264,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 0,
@@ -248,6 +276,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -259,6 +288,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -270,6 +300,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -281,6 +312,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -292,6 +324,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -303,6 +336,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -314,6 +348,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -325,6 +360,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -336,6 +372,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -347,6 +384,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -358,6 +396,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -369,6 +408,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -380,6 +420,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -391,6 +432,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -402,6 +444,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -413,6 +456,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -424,6 +468,7 @@ const tiles = [
     basement: 1,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -435,6 +480,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -446,6 +492,7 @@ const tiles = [
     basement: 1,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -457,6 +504,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -468,6 +516,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -479,6 +528,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -490,6 +540,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -501,6 +552,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 1,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -512,6 +564,7 @@ const tiles = [
     basement: 0,
     event: 0,
     ground: 0,
+    type: 'tiles',
   },
   {
     upper: 1,
@@ -523,6 +576,7 @@ const tiles = [
     basement: 0,
     event: 1,
     ground: 0,
+    type: 'tiles',
   },
 ];
 

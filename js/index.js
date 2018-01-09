@@ -1,6 +1,6 @@
 /* eslint-env browser */
 /* globals $ Draggable Overlay Game characters */
-/* globals tiles events items omens */
+/* globals tiles events items omens pieces */
 
 // select ui elements
 const ui = {};
@@ -45,4 +45,5 @@ const game = new Game(ui, {
   events: { name: 'events', cards: events },
   items: { name: 'items', cards: items },
   omens: { name: 'omens', cards: omens },
+  pieces: { name: 'pieces', cards: pieces },
 }, characters);
