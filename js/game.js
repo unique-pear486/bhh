@@ -8,6 +8,7 @@ class Deck {
     this.game = game;
     this.name = name;
     this.cards = cards;
+    this.discards = [];
     this.nextImg = new Image();
     this.chooseNextCard();
   }
@@ -18,11 +19,18 @@ class Deck {
     this.game.overlay.display(this.next.name, i, '', true);
     // put it in the hand
     this.game.hand.addCard(this.next);
+    // Remove it from the deck
+    this.cards.splice(this.nextIndex, 1);
     // Refresh the next card
     this.chooseNextCard();
   }
   chooseNextCard() {
-    this.next = this.cards[Math.floor(Math.random() * this.cards.length)];
+    if (this.cards.length === 0) {
+      this.cards = this.discards;
+      this.discards = [];
+    }
+    this.nextIndex = (Math.floor(Math.random() * this.cards.length));
+    this.next = this.cards[this.nextIndex];
     this.nextImg.src = this.next.filename;
   }
 }
@@ -320,6 +328,9 @@ class Game {
       // Match the card based on clicked object
       const index = this.hand.cards.findIndex(c => (c.name === img.dataset.name));
       if (index === -1) return;
+      // Place it in the discard pile
+      const card = this.hand.cards[index];
+      this[card.type].discards.push(card);
       // Remove card from hand
       this.hand.cards.splice(index, 1);
       // And remove the image from page

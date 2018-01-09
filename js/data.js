@@ -530,182 +530,227 @@ const events = [
   {
     name: 'A Moment of Hope',
     filename: 'img/event_amomentofhope.jpg',
+    type: 'events',
   },
   {
     name: 'Angry Being',
     filename: 'img/event_angrybeing.jpg',
+    type: 'events',
   },
   {
     name: 'Bloody Vision',
     filename: 'img/event_bloodyvision.jpg',
+    type: 'events',
   },
   {
     name: 'Burning Man',
     filename: 'img/event_burning_man.jpg',
+    type: 'events',
   },
   {
     name: 'Closed Door',
     filename: 'img/event_closet_door.jpg',
+    type: 'events',
   },
   {
     name: 'Creepy Crawlies',
     filename: 'img/event_creepy_crawlies.jpg',
+    type: 'events',
   },
   {
     name: 'Creepy Puppet',
     filename: 'img/event_creepy_puppet.jpg',
+    type: 'events',
   },
   {
     name: 'Debris',
     filename: 'img/event_debris.jpg',
+    type: 'events',
   },
   {
     name: 'Disquieting Sounds',
     filename: 'img/event_disquieting_sounds.jpg',
+    type: 'events',
   },
   {
     name: 'Drip',
     filename: 'img/event_drip.jpg',
+    type: 'events',
   },
   {
     name: 'Footsteps',
     filename: 'img/event_footsteps.jpg',
+    type: 'events',
   },
   {
     name: 'Funeral',
     filename: 'img/event_funeral.jpg',
+    type: 'events',
   },
   {
     name: 'Grave Dirt',
     filename: 'img/event_grave_dirt.jpg',
+    type: 'events',
   },
   {
     name: 'Groundskeeper',
     filename: 'img/event_groundskeeper.jpg',
+    type: 'events',
   },
   {
     name: 'Hanged Man',
     filename: 'img/event_hanged_man.jpg',
+    type: 'events',
   },
   {
     name: 'Hideous Shriek',
     filename: 'img/event_hideous_shriek.jpg',
+    type: 'events',
   },
   {
     name: 'Image in the Mirror (Past)',
     filename: 'img/event_image_in_the_mirror.jpg',
+    type: 'events',
   },
   {
     name: 'Image in the Mirror (Future)',
     filename: 'img/event_imageinthemirror.jpg',
+    type: 'events',
   },
   {
     name: 'It is Meant to Be',
     filename: 'img/event_itismeanttobe.jpg',
+    type: 'events',
   },
   {
     name: 'Jonah\u2019s Turn',
     filename: 'img/event_jonahsturn.jpg',
+    type: 'events',
   },
   {
     name: 'Lights Out',
     filename: 'img/event_lightsout.jpg',
+    type: 'events',
   },
   {
     name: 'Locked Safe',
     filename: 'img/event_lockedsafe.jpg',
+    type: 'events',
   },
   {
     name: 'Mist from the Walls',
     filename: 'img/event_mistfromthewalls.jpg',
+    type: 'events',
   },
   {
     name: 'Mystic Slide',
     filename: 'img/event_mysticslide.jpg',
+    type: 'events',
   },
   {
     name: 'Night View',
     filename: 'img/event_nightview.jpg',
+    type: 'events',
   },
   {
     name: 'Phone Call',
     filename: 'img/event_phonecall.jpg',
+    type: 'events',
   },
   {
     name: 'Possession',
     filename: 'img/event_possession.jpg',
+    type: 'events',
   },
   {
     name: 'Revolving Wall',
     filename: 'img/event_revolvingwall.jpg',
+    type: 'events',
   },
   {
     name: 'Rotten',
     filename: 'img/event_rotten.jpg',
+    type: 'events',
   },
   {
     name: 'Safe Passage',
     filename: 'img/event_safe_passage.jpg',
+    type: 'events',
   },
   {
     name: 'Secret Stairs',
     filename: 'img/event_secretstairs.jpg',
+    type: 'events',
   },
   {
     name: 'Shrieking Wind',
     filename: 'img/event_shriekingwind.jpg',
+    type: 'events',
   },
   {
     name: 'Silence',
     filename: 'img/event_silence.jpg',
+    type: 'events',
   },
   {
     name: 'Skeletons',
     filename: 'img/event_skeletons.jpg',
+    type: 'events',
   },
   {
     name: 'Smoke',
     filename: 'img/event_smoke.jpg',
+    type: 'events',
   },
   {
     name: 'Something Hidden',
     filename: 'img/event_somethinghidden.jpg',
+    type: 'events',
   },
   {
     name: 'Something Slimy',
     filename: 'img/event_somethingslimy.jpg',
+    type: 'events',
   },
   {
     name: 'Spider',
     filename: 'img/event_spider.jpg',
+    type: 'events',
   },
   {
     name: 'The Beckoning',
     filename: 'img/event_thebeckoning.jpg',
+    type: 'events',
   },
   {
     name: 'The Lost One',
     filename: 'img/event_thelostone.jpg',
+    type: 'events',
   },
   {
     name: 'The Voice',
     filename: 'img/event_thevoice.jpg',
+    type: 'events',
   },
   {
     name: 'The Walls',
     filename: 'img/event_thewalls.jpg',
+    type: 'events',
   },
   {
     name: 'Webs',
     filename: 'img/event_webs.jpg',
+    type: 'events',
   },
   {
     name: 'What the...?',
     filename: 'img/event_whatthe.jpg',
+    type: 'events',
   },
   {
     name: 'Whoops!',
     filename: 'img/event_whoops.jpg',
+    type: 'events',
   },
 ];
 
@@ -713,90 +758,112 @@ const items = [
   {
     name: 'Adrenaline Shot',
     filename: 'img/item_adrenalineshot.jpg',
+    type: 'items',
   },
   {
     name: 'Amulet of the Ages',
     filename: 'img/item_amuletoftheages.jpg',
+    type: 'items',
   },
   {
     name: 'Angle Feather',
     filename: 'img/item_angelfeather.jpg',
+    type: 'items',
   },
   {
     name: 'Armor',
     filename: 'img/item_armor.jpg',
+    type: 'items',
   },
   {
     name: 'Axe',
     filename: 'img/item_axe.jpg',
+    type: 'items',
   },
   {
     name: 'Bell',
     filename: 'img/item_bell.jpg',
+    type: 'items',
   },
   {
     name: 'Blood Dagger',
     filename: 'img/item_blooddagger.jpg',
+    type: 'items',
   },
   {
     name: 'Bottle',
     filename: 'img/item_bottle.jpg',
+    type: 'items',
   },
   {
     name: 'Candle',
     filename: 'img/item_candle.jpg',
+    type: 'items',
   },
   {
     name: 'Dark Dice',
     filename: 'img/item_darkdice.jpg',
+    type: 'items',
   },
   {
     name: 'Dynamite',
     filename: 'img/item_dynamite.jpg',
+    type: 'items',
   },
   {
     name: 'Healing Salve',
     filename: 'img/item_healingsalve.jpg',
+    type: 'items',
   },
   {
     name: 'Idol',
     filename: 'img/item_idol.jpg',
+    type: 'items',
   },
   {
     name: 'Lucky Stone',
     filename: 'img/item_luckystone.jpg',
+    type: 'items',
   },
   {
     name: 'Medical Kit',
     filename: 'img/item_medicalkit.jpg',
+    type: 'items',
   },
   {
     name: 'Music Box',
     filename: 'img/item_musicbox.jpg',
+    type: 'items',
   },
   {
     name: 'Pick Pocket\u2019s Gloves',
     filename: 'img/item_pickpocketsgloves.jpg',
+    type: 'items',
   },
   {
     name: 'Puzzlebox',
     filename: 'img/item_puzzlebox.jpg',
+    type: 'items',
   },
   {
     name: 'Rabbit\u2019s Foot',
     filename: 'img/item_rabbitsfoot.jpg',
+    type: 'items',
   },
   {
     name: 'Revolver',
     filename: 'img/item_revolver.jpg',
+    type: 'items',
   },
   {
     name: 'Sacrificial Dagger',
     filename: 'img/item_sacrificialdagger.jpg',
+    type: 'items',
   },
   {
     name: 'Smelling Salts',
     filename: 'img/item_smellingsalts.jpg',
+    type: 'items',
   },
 ];
 
@@ -804,54 +871,67 @@ const omens = [
   {
     name: 'Bite',
     filename: 'img/omen_bite.jpg',
+    type: 'omens',
   },
   {
     name: 'Book',
     filename: 'img/omen_book.jpg',
+    type: 'omens',
   },
   {
     name: 'Crystal Ball',
     filename: 'img/omen_crystalball.jpg',
+    type: 'omens',
   },
   {
     name: 'Dog',
     filename: 'img/omen_dog.jpg',
+    type: 'omens',
   },
   {
     name: 'Girl',
     filename: 'img/omen_girl.jpg',
+    type: 'omens',
   },
   {
     name: 'Holy Symbol',
     filename: 'img/omen_holysymbol.jpg',
+    type: 'omens',
   },
   {
     name: 'Madman',
     filename: 'img/omen_madman.jpg',
+    type: 'omens',
   },
   {
     name: 'Mask',
     filename: 'img/omen_mask.jpg',
+    type: 'omens',
   },
   {
     name: 'Medallion',
     filename: 'img/omen_medallion.jpg',
+    type: 'omens',
   },
   {
     name: 'Ring',
     filename: 'img/omen_ring.jpg',
+    type: 'omens',
   },
   {
     name: 'Skull',
     filename: 'img/omen_skull.jpg',
+    type: 'omens',
   },
   {
     name: 'Spear',
     filename: 'img/omen_spear.jpg',
+    type: 'omens',
   },
   {
     name: 'Spiritboard',
     filename: 'img/omen_spiritboard.jpg',
+    type: 'omens',
   },
 ];
 
