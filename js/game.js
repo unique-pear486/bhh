@@ -20,9 +20,19 @@ class Deck {
     // put it in the hand
     this.game.hand.addCard(this.next);
     // Remove it from the deck
-    this.cards.splice(this.nextIndex, 1);
+    this.removeCard();
     // Refresh the next card
     this.chooseNextCard();
+  }
+  removeCard(card) {
+    if (card == null) {
+      // if card is null or undefined remove the .next card
+      this.cards.splice(this.nextIndex, 1);
+    } else {
+      // else, find the given card and remove it
+      const index = this.cards.findIndex(c => (c.name === card.name));
+      this.cards.splice(index, 1);
+    }
   }
   chooseNextCard() {
     if (this.cards.length === 0) {
@@ -42,16 +52,43 @@ class TileDeck extends Deck {
     this.ground = this.cards.filter(card => (card.ground === 1));
     this.basement = this.cards.filter(card => (card.basement === 1));
   }
-  drawCard(options) {
-    console.log(options);
+  drawCard({ restrictFloor }) {
+    // keep cycling cards until we find a matching card
+    if (restrictFloor) {
+      // If we're out of cards, say so, and exit
+      if (this[restrictFloor].length === 0) {
+        this.game.overlay.display(`Out of ${restrictFloor} tiles`, null, '', true);
+        return;
+      }
+      while (this.next[restrictFloor] !== 1) {
+        this.chooseNextCard();
+      }
+    }
     // make a new image and display it
     const i = new Image();
     i.src = this.next.filename;
     this.game.overlay.display(this.next.name, i, '', true);
     // put it on the selected floor
     this.game.floor.selected.addTile(this.next);
+    // remove next card from deck
+    this.removeCard();
+
     // Refresh the next card
     this.chooseNextCard();
+  }
+  removeCard(card) {
+    if (card == null) {
+      // if card is null or undefined remove the .next card
+      this.cards.splice(this.nextIndex, 1);
+    } else {
+      // else, find the given card and remove it
+      const index = this.cards.findIndex(c => (c.name === card.name));
+      this.cards.splice(index, 1);
+    }
+    // Regenerate the upper, ground and basement decks
+    this.upper = this.cards.filter(c => (c.upper === 1));
+    this.ground = this.cards.filter(c => (c.ground === 1));
+    this.basement = this.cards.filter(c => (c.basement === 1));
   }
 }
 
@@ -235,16 +272,16 @@ class Game {
     );
     $deck
       .hover(setTileImg('img/Tile_bgu.png'), setTileImg('img/Tile_.png'))
-      .click(getTile({ upper: true, ground: true, basement: true }));
+      .click(getTile({ restrictFloor: null }));
     $basement
       .hover(setTileImg('img/Tile_b.png'), setTileImg('img/Tile_bgu.png'))
-      .click(getTile({ basement: true }));
+      .click(getTile({ restrictFloor: 'basement' }));
     $ground
       .hover(setTileImg('img/Tile_g.png'), setTileImg('img/Tile_bgu.png'))
-      .click(getTile({ ground: true }));
+      .click(getTile({ restrictFloor: 'ground' }));
     $upper
       .hover(setTileImg('img/Tile_u.png'), setTileImg('img/Tile_bgu.png'))
-      .click(getTile({ upper: true }));
+      .click(getTile({ restrictFloor: 'upper' }));
   }
 
   eventDeck(el) {
