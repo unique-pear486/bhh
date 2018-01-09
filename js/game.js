@@ -131,6 +131,12 @@ class Floor {
     i.style.top = '1000px';
     i.style.left = '1000px';
     i.dataset.name = tile.name;
+    // if the tile is not a floortile give it the object class and offset
+    if (tile.type !== 'tiles') {
+      i.classList.add('object');
+      i.style.top = '1035px';
+      i.style.left = '1035px';
+    }
     i.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -192,15 +198,15 @@ class Game {
     this.itemDeck(ui.itemDeck);
     this.omenDeck(ui.omenDeck);
 
-    // set up dice and search buttons
-    this.dice(ui.dice);
-    this.rollDice = Game.rollDice.bind(this); // bind event handler
-    this.search(ui.search);
-
     // set up your character
     this.characters = characters;
     this.me = {};
     this.characterCard(ui.me);
+
+    // set up dice and search buttons
+    this.dice(ui.dice);
+    this.rollDice = Game.rollDice.bind(this); // bind event handler
+    this.search(ui.search);
 
     // set up hand
     this.setupHand(ui.hand);
@@ -346,7 +352,8 @@ class Game {
       .concat(this.events.cards)
       .concat(this.items.cards)
       .concat(this.omens.cards)
-      .concat(this.pieces.cards);
+      .concat(this.pieces.cards)
+      .concat(this.characters);
     this.search.fuse = new Fuse(this.search.allItems, options);
     // create a method to add the item when clicked
     const addItem = (e) => {
@@ -363,6 +370,7 @@ class Game {
           this.hand.addCard(item);
           break;
         default:
+          this.floor.selected.addTile(item);
           console.log(`other: ${item.type}`);
       }
       this.overlay.hide();
@@ -481,8 +489,8 @@ class Game {
       i.classList.add('border');
       i.onload = displayOverlay();
       i.addEventListener('click', () => {
-        console.log(character.name);
         this.me.img.src = character.img;
+        this.floor.selected.addTile(character);
         this.overlay.hide();
       });
       div.appendChild(i);

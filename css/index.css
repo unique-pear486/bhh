@@ -166,6 +166,11 @@ body {
     height: 100px;
     position: absolute;
 }
+img.object {
+    height: 30px;
+    width: 30px;
+    z-index: 10;
+}
 .hidd {
     display: none !important;
 }
@@ -218,6 +223,7 @@ body {
 }
 .character-select > img {
     width: 15vw;
+    height: 15vw;
 }
 .choose-number {
     width: 3em;
