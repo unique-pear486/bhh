@@ -164,8 +164,10 @@ class Floor {
 
 
 class Game {
-  constructor(ui, decks, characters) {
+  constructor(name, ui, decks, characters, data, socket) {
+    this.name = name;
     this.ui = ui;
+    this.socket = socket;
 
     // set up floors
     this.floor = {};
@@ -218,6 +220,10 @@ class Game {
       this.overlay.content.removeAttribute('style');
       this.showCharacterSelect();
     }, 500);
+  }
+
+  send(type, data) {
+    this.socket.emit(type, { room: this.name, data });
   }
 
   floorButtons({ basement, ground, upper }) {
@@ -477,6 +483,7 @@ class Game {
       });
     };
   }
+
   showCharacterSelect() {
     let imagesLoaded = 0;
     const div = document.createElement('div');
@@ -496,6 +503,7 @@ class Game {
         this.me.img.src = character.img;
         this.floor.selected.addTile(character);
         this.overlay.hide();
+        this.send('character-select', { character: character.name });
       });
       div.appendChild(i);
       i.src = character.img;

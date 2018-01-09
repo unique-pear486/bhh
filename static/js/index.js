@@ -49,10 +49,26 @@ window.addEventListener(
   socket.disconnect,
 );
 
-const game = new Game(ui, {
-  tiles: { name: 'tiles', cards: tiles },
-  events: { name: 'events', cards: events },
-  items: { name: 'items', cards: items },
-  omens: { name: 'omens', cards: omens },
-  pieces: { name: 'pieces', cards: pieces },
-}, characters, socket);
+// Start a game
+let game;
+
+// DEBUG:
+socket.on('echo', (msg) => {
+  console.log(msg.data);
+});
+echoRoom = () => {
+  socket.emit('echo-game', { room: 'default' });
+};
+
+socket.on('new_game', (msg) => {
+  console.log(msg.data);
+  game = new Game('default', ui, {
+    tiles: { name: 'tiles', cards: tiles },
+    events: { name: 'events', cards: events },
+    items: { name: 'items', cards: items },
+    omens: { name: 'omens', cards: omens },
+    pieces: { name: 'pieces', cards: pieces },
+  }, characters, msg.data, socket);
+});
+
+socket.emit('join', { room: 'default' });
