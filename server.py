@@ -112,7 +112,7 @@ def remove_tile(game, data):
     floor = data['floor']
     id = data['id']
     print('{} removed tile {} from {}'.format(request.sid, id, floor))
-    tile = game.getTile(floor, id)
+    tile = game.gettile(floor, id)
     if (tile):
         game.floors[floor].remove(tile)
         emit('remove-tile', {'data': data}, room=game.name, include_self=False)
@@ -145,6 +145,33 @@ def move_tile(game, data):
     tile['x'] = index['x']
     tile['y'] = index['y']
     emit('move-tile', {'data': data}, room=game.name, include_self=False)
+
+
+@socketio.on('add-hand-card')
+@game
+def add_hand_card(game, data):
+    character = data['character']
+    card = data['card']
+    id = data['id']
+    print('{} added card {} ({}) to {}'.format(request.sid, card, id,
+          character))
+    game.characters[character]['hand'].append({'name': card, 'id': id})
+    emit('add-hand-card', {'data': data}, room=game.name, include_self=False)
+
+
+@socketio.on('remove-hand-card')
+@game
+def remove_hand_card(game, data):
+    character = data['character']
+    id = data['id']
+    print('{} removed card {} from {}'.format(request.sid, id, character))
+    cards = [c for c in game.characters[character]['hand'] if c['id'] == id]
+    if (cards):
+        game.characters[character]['hand'].remove(cards[0])
+        emit('remove-hand-card', {'data': data}, room=game.name,
+             include_self=False)
+    else:
+        pass
 
 
 if __name__ == '__main__':

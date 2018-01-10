@@ -322,6 +322,29 @@ class Game {
         tile.draggable.setIndex(index);
       },
     );
+
+    this.socket.on(
+      'add-hand-card',
+      ({ data: { character, card: cardName, id } }) => {
+        if (this.me.name === character) {
+          const card = this.search.allItems.find(c => c.name === cardName);
+          card.id = id;
+          this.hand.addCard(card);
+        }
+        // else ignore it
+      },
+    );
+
+    this.socket.on(
+      'remove-hand-card',
+      ({ data: { character, id } }) => {
+        if (this.me.name === character) {
+          const card = this.hand.cards.find(c => c.id === id);
+          this.hand.removeCard(card.el);
+        }
+        // else ignore it
+      },
+    );
   }
 
   floorButtons({ basement, ground, upper }) {
@@ -563,7 +586,7 @@ class Game {
     this.hand.cards = [];
     this.hand.showCard = (img) => {
       // Match the card based on clicked object
-      const card = this.hand.cards.find(c => (c.name === img.dataset.name));
+      const card = this.hand.cards.find(c => (c.id === img.dataset.id));
       if (card === undefined) return;
       const newImg = new Image();
       newImg.src = card.filename;
@@ -571,10 +594,19 @@ class Game {
     };
     this.hand.removeCard = (img) => {
       // Match the card based on clicked object
-      const index = this.hand.cards.findIndex(c => (c.name === img.dataset.name));
+      const index = this.hand.cards.findIndex(c => (c.id === img.dataset.id));
       if (index === -1) return;
-      // Place it in the discard pile
       const card = this.hand.cards[index];
+
+      // remove card from server
+      this.send('remove-hand-card', {
+        character: this.me.name,
+        id: card.id,
+      });
+      // remove reference to the image element to prevent memory leak
+      delete card.el;
+
+      // Place it in the discard pile
       this[card.type].discards.push(card);
       // Remove card from hand
       this.hand.cards.splice(index, 1);
@@ -582,12 +614,22 @@ class Game {
       img.parentElement.removeChild(img);
     };
     this.hand.addCard = (card) => {
+      // if a new card (id == null) send message
+      if (card.id == null) {
+        card.id = generateRandID();
+        this.send('add-hand-card', {
+          character: this.me.name,
+          card: card.name,
+          id: card.id,
+        });
+      }
       // add to cards
       this.hand.cards.push(card);
       // add image to page
       const i = new Image();
       i.src = card.filename;
-      i.dataset.name = card.name;
+      i.dataset.id = card.id;
+      card.el = i;
       this.hand.el.appendChild(i);
       i.addEventListener('click', (e) => {
         e.preventDefault();
