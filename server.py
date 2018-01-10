@@ -48,6 +48,7 @@ def join(message):
     join_room(game)
     if game not in games:
         games[game] = Game(game)
+    games[game].emit_game_state()
 
 
 # DEBUG
@@ -112,7 +113,7 @@ def remove_tile(game, data):
     floor = data['floor']
     id = data['id']
     print('{} removed tile {} from {}'.format(request.sid, id, floor))
-    tile = game.gettile(floor, id)
+    tile = game.getTile(floor, id)
     if (tile):
         game.floors[floor].remove(tile)
         emit('remove-tile', {'data': data}, room=game.name, include_self=False)
