@@ -56,19 +56,16 @@ let game;
 socket.on('echo', (msg) => {
   console.log(msg.data);
 });
-echoRoom = () => {
-  socket.emit('echo-game', { room: 'default' });
+echoGame = () => {
+  socket.emit('echo-game', { game: 'default' });
 };
 
-socket.on('new_game', (msg) => {
-  console.log(msg.data);
-  game = new Game('default', ui, {
-    tiles: { name: 'tiles', cards: tiles },
-    events: { name: 'events', cards: events },
-    items: { name: 'items', cards: items },
-    omens: { name: 'omens', cards: omens },
-    pieces: { name: 'pieces', cards: pieces },
-  }, characters, msg.data, socket);
-});
+socket.emit('join', { game: 'default' });
 
-socket.emit('join', { room: 'default' });
+game = new Game('default', ui, {
+  tiles: { name: 'tiles', cards: tiles },
+  events: { name: 'events', cards: events },
+  items: { name: 'items', cards: items },
+  omens: { name: 'omens', cards: omens },
+  pieces: { name: 'pieces', cards: pieces },
+}, characters, socket);

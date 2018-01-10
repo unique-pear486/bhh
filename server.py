@@ -1,3 +1,4 @@
+from functools import wraps
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room, emit
 from BatHH import Game
@@ -8,6 +9,26 @@ socketio = SocketIO(app)
 
 
 games = {}
+
+
+def game(f):
+    """
+    Wraps a function that requires an active game, extracts game and data from
+    the message
+    """
+    @wraps(f)
+    def wrapper(message):
+        try:
+            game = games[message['game']]
+        except e:
+            print(message)
+            raise(e)
+        if 'data' in message:
+            return f(game, message['data'])
+        else:
+            return f(game)
+    return wrapper
+
 
 
 @app.route('/')
@@ -22,27 +43,38 @@ def connect():
 
 @socketio.on('join')
 def join(message):
-    room = message['room']
-    print('{} joined room {}'.format(request.sid, room))
-    join_room(room)
-    if room not in games:
-        games[room] = Game(room)
-    emit('new_game', {'data': games[room].toDict()})
+    game = message['game']
+    print('{} joined game {}'.format(request.sid, game))
+    join_room(game)
+    if game not in games:
+        games[game] = Game(game)
 
 
 # DEBUG
 @socketio.on('echo-game')
-def echo_game(message):
-    room = message['room']
-    print('{} requested game data {}'.format(request.sid, room))
-    emit('echo', {'data': games[room].toDict()})
+@game
+def echo_game(game):
+    print('{} requested game data {}'.format(request.sid, game.name))
+    emit('echo', {'data': game.toDict()})
 
 
 @socketio.on('character-select')
-def character_select(message):
-    room = message['room']
-    data = message['data']
-    print('{} in {} selected {}'.format(request.sid, room, data['character']))
+@game
+def character_select(game, data):
+    character = data['character']
+    print('{} in {} selected {}'.format(request.sid, game.name, character))
+    game.addCharacter(character)
+
+
+@socketio.on('update-attribute')
+@game
+def update_attributes(game, data):
+    character = data['character']
+    attribute = data['attribute']
+    value = data['value']
+    game.characters[character][attribute] = value
+    emit('update-attribute', {'data': data}, room=game.name,
+         skip_sid=request.sid)
 
 
 if __name__ == '__main__':

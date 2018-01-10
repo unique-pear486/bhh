@@ -164,10 +164,15 @@ class Floor {
 
 
 class Game {
-  constructor(name, ui, decks, characters, data, socket) {
+  constructor(name, ui, decks, characters, socket) {
     this.name = name;
     this.ui = ui;
     this.socket = socket;
+
+    this.socketEvents();
+
+    // bind functions
+    this.send = Game.send.bind(this);
 
     // set up floors
     this.floor = {};
@@ -222,8 +227,20 @@ class Game {
     }, 500);
   }
 
-  send(type, data) {
-    this.socket.emit(type, { room: this.name, data });
+  static send(type, data) {
+    this.socket.emit(type, { game: this.name, data });
+  }
+
+  socketEvents() {
+    this.socket.on(
+      'update-attribute',
+      ({ data: { character, attribute, value } }) => {
+        if (this.me.name === character) {
+          this.me[attribute].setIndex({ x: value, y: 0 });
+        }
+        // else ignore it
+      },
+    );
   }
 
   floorButtons({ basement, ground, upper }) {
@@ -432,11 +449,27 @@ class Game {
       axis: 'x',
       limits: { xmin: 0, xmax: 8 },
     };
+    const updateValue = (valueName) => {
+      // get local variables needed for callback
+      const game = this;
+      return function () {
+        game.send('update-attribute', {
+          character: game.me.name,
+          attribute: valueName,
+          value: this.index.x,
+        });
+      };
+    };
     this.me.img = characterImg;
     this.me.speed = new Draggable(speed, options);
     this.me.might = new Draggable(might, options);
     this.me.sanity = new Draggable(sanity, options);
     this.me.knowledge = new Draggable(knowledge, options);
+
+    this.me.speed.registerFunc(updateValue('speed'));
+    this.me.might.registerFunc(updateValue('might'));
+    this.me.sanity.registerFunc(updateValue('sanity'));
+    this.me.knowledge.registerFunc(updateValue('knowledge'));
   }
 
   setupHand(el) {
@@ -491,16 +524,18 @@ class Game {
 
     const displayOverlay = () => {
       imagesLoaded += 1;
-      if (imagesLoaded < 6) return;
+      if (imagesLoaded < 12) return;
       this.overlay.display('Choose your character', div, '', false);
     };
 
     this.characters.forEach((character) => {
       const i = new Image();
       i.classList.add('border');
+      // set up onclick
       i.onload = displayOverlay();
       i.addEventListener('click', () => {
         this.me.img.src = character.img;
+        this.me.name = character.name;
         this.floor.selected.addTile(character);
         this.overlay.hide();
         this.send('character-select', { character: character.name });
