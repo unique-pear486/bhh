@@ -260,11 +260,7 @@ class Game {
 
     // hide the overlay and choose character
     this.overlay = ui.overlay;
-    setTimeout(() => {
-      this.overlay.hide();
-      this.overlay.content.removeAttribute('style');
-      this.showCharacterSelect();
-    }, 500);
+    this.showCharacterSelect();
   }
 
   static send(type, data) {
@@ -693,6 +689,7 @@ class Game {
     const displayOverlay = () => {
       imagesLoaded += 1;
       if (imagesLoaded < 12) return;
+      this.overlay.content.removeAttribute('style');
       this.overlay.display('Choose your character', div, '', false);
     };
 
@@ -700,7 +697,7 @@ class Game {
       const i = new Image();
       i.classList.add('border');
       // set up onclick
-      i.onload = displayOverlay();
+      i.onload = displayOverlay;
       i.addEventListener('click', () => {
         this.me.img.src = character.img;
         this.me.name = character.name;
