@@ -185,4 +185,5 @@ def begin_haunt(game, data):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    print('running server on port 5060...')
+    socketio.run(app, port=5060)
