@@ -345,6 +345,13 @@ class Game {
         // else ignore it
       },
     );
+
+    this.socket.on(
+      'begin-haunt',
+      () => {
+        this.haunt.begin();
+      },
+    );
   }
 
   floorButtons({ basement, ground, upper }) {
@@ -379,10 +386,44 @@ class Game {
   }
 
   hauntTracker({ marker, hauntBtn }) {
-    function haunt() {
-      console.log('haunt');
-    }
     this.haunt = {};
+    this.haunt.begin = () => {
+      this.send('begin-haunt', {});
+      const i = new Image();
+      i.src = '/static/img/haunt_table.jpg';
+      i.id = 'haunt-chart';
+      const form = document.createElement('form');
+      const textBox = document.createElement('input');
+      const traitorBtn = document.createElement('div');
+      const heroBtn = document.createElement('div');
+      form.classList.add('haunt-form');
+      textBox.type = 'text';
+      textBox.value = '1';
+      heroBtn.innerHTML = 'Hero';
+      heroBtn.id = 'hero-btn';
+      traitorBtn.innerHTML = 'Traitor';
+      traitorBtn.id = 'traitor-btn';
+      textBox.classList.add('choose-number');
+      this.overlay.display('Choose your haunt...', i, '', true);
+      this.overlay.text.appendChild(form);
+      form.appendChild(textBox);
+      form.appendChild(heroBtn);
+      form.appendChild(traitorBtn);
+
+      textBox.select();
+      textBox.focus();
+
+      heroBtn.addEventListener('click', () => {
+        const number = (`0${textBox.value}`).slice(-2);
+        window.open(`/static/pdf/Survival-${number}.pdf`, '_blank');
+        this.overlay.hide();
+      });
+      traitorBtn.addEventListener('click', () => {
+        const number = (`0${textBox.value}`).slice(-2);
+        window.open(`/static/pdf/Traitor-${number}.pdf`, '_blank');
+        this.overlay.hide();
+      });
+    };
     this.haunt.step = 0;
     this.haunt.drag = new Draggable(marker, {
       grid: [58, 1],
@@ -394,7 +435,7 @@ class Game {
       send('update-haunt', { index: this.index });
     });
 
-    hauntBtn.addEventListener('click', haunt.bind(this));
+    hauntBtn.addEventListener('click', this.haunt.begin);
   }
 
   tileDeck({ $img, $deck, $basement, $ground, $upper }) {

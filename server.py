@@ -174,5 +174,14 @@ def remove_hand_card(game, data):
         pass
 
 
+@socketio.on('begin-haunt')
+@game
+def begin_haunt(game, data):
+    print('{} began the haunt'.format(request.sid))
+    if not game.begun:
+        emit('begin-haunt', {'data': data}, room=game.name, include_self=False)
+        game.begun = True
+
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)

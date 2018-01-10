@@ -229,3 +229,41 @@ img.object {
     width: 3em;
     font-size: large;
 }
+#haunt-chart {
+    max-width: 90vw;
+    max-height: 70vh;
+}
+#traitor-btn {
+    background: #8698b8;
+    border: 2px solid #314668;
+    width: 7em;
+    border-radius: 5px;
+    text-align: center;
+    height: 2em;
+    line-height: 2em;
+    color: #314668;
+}
+#traitor-btn:hover {
+    background: #c4ccdc;
+    cursor:pointer;
+}
+#hero-btn {
+    background: #b2d695;
+    border: 2px solid #536C3F;
+    width: 7em;
+    border-radius: 5px;
+    text-align: center;
+    height: 2em;
+    line-height: 2em;
+    color: #2d3a22;
+}
+#hero-btn:hover {
+    background: #ceecb6;
+    cursor:pointer;
+}
+.haunt-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 90vw;
+}
