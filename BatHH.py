@@ -7,6 +7,7 @@ class Game():
             'upper': [],
         }
         self.characters = {}
+        self.haunt = 0
 
     def addCharacter(self, name):
         if name in self.characters:

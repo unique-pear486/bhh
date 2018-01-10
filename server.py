@@ -20,7 +20,7 @@ def game(f):
     def wrapper(message):
         try:
             game = games[message['game']]
-        except e:
+        except Exception as e:
             print(message)
             raise(e)
         if 'data' in message:
@@ -64,6 +64,16 @@ def character_select(game, data):
     character = data['character']
     print('{} in {} selected {}'.format(request.sid, game.name, character))
     game.addCharacter(character)
+
+
+@socketio.on('update-haunt')
+@game
+def update_haunt(game, data):
+    haunt = data['index']['x']
+    print('{} updated the haunt level to {}'.format(request.sid, haunt))
+    game.haunt = haunt
+    emit('update-haunt', {'data': data}, room=game.name,
+         include_self=False)
 
 
 @socketio.on('update-attribute')

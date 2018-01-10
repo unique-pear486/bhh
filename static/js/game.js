@@ -273,6 +273,13 @@ class Game {
 
   socketEvents() {
     this.socket.on(
+      'update-haunt',
+      ({ data: { index } }) => {
+        this.haunt.drag.setIndex(index);
+      },
+    );
+
+    this.socket.on(
       'update-attribute',
       ({ data: { character, attribute, value } }) => {
         if (this.me.name === character) {
@@ -358,6 +365,10 @@ class Game {
       grid: [58, 1],
       axis: 'x',
       limits: { xmin: 0, xmax: 12 },
+    });
+    const { send } = this;
+    this.haunt.drag.registerFunc(function () {
+      send('update-haunt', { index: this.index });
     });
 
     hauntBtn.addEventListener('click', haunt.bind(this));
