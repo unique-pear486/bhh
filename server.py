@@ -86,7 +86,13 @@ def add_tile(game, data):
     id = data['id']
     tile = data['tile']
     print('{} added tile {} ({}) to {}'.format(request.sid, tile, id, floor))
-    game.floors[floor].append({'tile': tile, 'id': id})
+    game.floors[floor].append({
+        'tile': tile,
+        'id': id,
+        'rotate': 0,
+        'x': 0,
+        'y': 0,
+        })
     emit('add-tile', {'data': data}, room=game.name, include_self=False)
 
 
@@ -96,12 +102,39 @@ def remove_tile(game, data):
     floor = data['floor']
     id = data['id']
     print('{} removed tile {} from {}'.format(request.sid, id, floor))
-    tile = [t for t in game.floors[floor] if t['id'] == id]
+    tile = game.getTile(floor, id)
     if (tile):
-        game.floors[floor].remove(tile[0])
+        game.floors[floor].remove(tile)
         emit('remove-tile', {'data': data}, room=game.name, include_self=False)
     else:
         pass
+
+
+@socketio.on('rotate-tile')
+@game
+def rotate_tile(game, data):
+    floor = data['floor']
+    id = data['id']
+    rotate = data['rotate']
+    print('{} rotated tile {} from {} to {}'.format(request.sid, id, floor,
+          rotate))
+    tile = game.getTile(floor, id)
+    tile['rotate'] = rotate
+    emit('rotate-tile', {'data': data}, room=game.name, include_self=False)
+
+
+@socketio.on('move-tile')
+@game
+def move_tile(game, data):
+    floor = data['floor']
+    id = data['id']
+    index = data['index']
+    print('{} moved tile {} from {} to {}'.format(request.sid, id, floor,
+          index))
+    tile = game.getTile(floor, id)
+    tile['x'] = index['x']
+    tile['y'] = index['y']
+    emit('move-tile', {'data': data}, room=game.name, include_self=False)
 
 
 if __name__ == '__main__':

@@ -135,6 +135,18 @@ class Floor {
       if (tile === undefined) return;
       tile.rotate += 90;
       tile.draggable.rotate = tile.rotate;
+      this.game.send('rotate-tile', {
+        floor: this.name,
+        id: tile.id,
+        rotate: tile.rotate,
+      });
+    };
+    this.sendTileMoved = function () {
+      game.send('move-tile', {
+        floor: name,
+        id: this.el.dataset.id,
+        index: this.index,
+      });
     };
   }
   addTile(tile) {
@@ -178,6 +190,9 @@ class Floor {
     tile.draggable = new Draggable(i, { grid: [100, 100] });
     tile.rotate = 0;
     this.tiles.push(tile);
+
+    // register callback for when the tile moved
+    tile.draggable.registerFunc(this.sendTileMoved);
   }
   hide() {
     this.el.classList.add('hidd');
@@ -260,7 +275,6 @@ class Game {
     this.socket.on(
       'update-attribute',
       ({ data: { character, attribute, value } }) => {
-        console.log('update attr');
         if (this.me.name === character) {
           this.me[attribute].setIndex({ x: value, y: 0 });
         }
@@ -272,9 +286,6 @@ class Game {
       'add-tile',
       ({ data: { floor, tile: tileName, id } }) => {
         const tile = this.search.allItems.find(t => t.name === tileName);
-        if (tile == null) {
-          console.log(floor, tileName, id);
-        }
         tile.id = id;
         this.floor[floor].addTile(tile);
       },
@@ -284,10 +295,24 @@ class Game {
       'remove-tile',
       ({ data: { floor, id } }) => {
         const tile = this.floor[floor].tiles.find(t => t.id === id);
-        if (tile == null) {
-          console.log(floor, id);
-        }
         this.floor[floor].removeTile(tile.draggable.el);
+      },
+    );
+
+    this.socket.on(
+      'rotate-tile',
+      ({ data: { floor, id, rotate } }) => {
+        const tile = this.floor[floor].tiles.find(t => t.id === id);
+        tile.rotate = rotate;
+        tile.draggable.rotate = rotate;
+      },
+    );
+
+    this.socket.on(
+      'move-tile',
+      ({ data: { floor, id, index } }) => {
+        const tile = this.floor[floor].tiles.find(t => t.id === id);
+        tile.draggable.setIndex(index);
       },
     );
   }
