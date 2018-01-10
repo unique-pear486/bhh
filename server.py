@@ -72,9 +72,36 @@ def update_attributes(game, data):
     character = data['character']
     attribute = data['attribute']
     value = data['value']
+    print('{} updated {}.{} to {}'.format(request.sid, character, attribute,
+          value))
     game.characters[character][attribute] = value
     emit('update-attribute', {'data': data}, room=game.name,
-         skip_sid=request.sid)
+         include_self=False)
+
+
+@socketio.on('add-tile')
+@game
+def add_tile(game, data):
+    floor = data['floor']
+    id = data['id']
+    tile = data['tile']
+    print('{} added tile {} ({}) to {}'.format(request.sid, tile, id, floor))
+    game.floors[floor].append({'tile': tile, 'id': id})
+    emit('add-tile', {'data': data}, room=game.name, include_self=False)
+
+
+@socketio.on('remove-tile')
+@game
+def remove_tile(game, data):
+    floor = data['floor']
+    id = data['id']
+    print('{} removed tile {} from {}'.format(request.sid, id, floor))
+    tile = [t for t in game.floors[floor] if t['id'] == id]
+    if (tile):
+        game.floors[floor].remove(tile[0])
+        emit('remove-tile', {'data': data}, room=game.name, include_self=False)
+    else:
+        pass
 
 
 if __name__ == '__main__':

@@ -3,6 +3,13 @@
 'use strict';
 
 
+function generateRandID() {
+  // Generates a random alphanumeric string
+  const length = 10;
+  return Math.random().toString(36).substr(2, length);
+}
+
+
 class Deck {
   constructor(game, { name, cards }) {
     this.game = game;
@@ -94,14 +101,15 @@ class TileDeck extends Deck {
 
 
 class Floor {
-  constructor(game, el) {
+  constructor(game, name, el) {
     this.game = game;
+    this.name = name;
     this.el = el;
     this.drag = new Draggable(el);
     this.tiles = [];
     this.showTile = (img) => {
       // Match the tile based on clicked image
-      const tile = this.tiles.find(t => (t.name === img.dataset.name));
+      const tile = this.tiles.find(t => (t.id === img.dataset.id));
       if (tile === undefined) return;
       const newImg = new Image();
       newImg.src = tile.filename;
@@ -109,28 +117,45 @@ class Floor {
     };
     this.removeTile = (img) => {
       // Match the tile based on clicked image
-      const index = this.tiles.findIndex(c => (c.name === img.dataset.name));
+      const index = this.tiles.findIndex(c => (c.id === img.dataset.id));
       if (index === -1) return;
-      // Remove card from hand
+      // remove tile from server
+      this.game.send('remove-tile', {
+        floor: this.name,
+        id: this.tiles[index].id,
+      });
+      // Remove tile from list
       this.tiles.splice(index, 1);
-      // And remove the image from page
+      // remove the image from page
       img.parentElement.removeChild(img);
     };
     this.rotateTile = (img) => {
       // Match the tile based on clicked image
-      const tile = this.tiles.find(t => (t.name === img.dataset.name));
+      const tile = this.tiles.find(t => (t.id === img.dataset.id));
       if (tile === undefined) return;
       tile.rotate += 90;
       tile.draggable.rotate = tile.rotate;
     };
   }
   addTile(tile) {
+    // if a new tile (id == null) send message
+    if (tile.id == null) {
+      tile.id = generateRandID();
+      this.game.send('add-tile', {
+        floor: this.name,
+        tile: tile.name,
+        id: tile.id,
+      });
+    }
+
+    // Add image to page
     const i = new Image();
     i.src = tile.filename;
     this.el.appendChild(i);
     i.style.top = '1000px';
     i.style.left = '1000px';
-    i.dataset.name = tile.name;
+    i.dataset.id = tile.id;
+
     // if the tile is not a floortile give it the object class and offset
     if (tile.type !== 'tiles') {
       i.classList.add('object');
@@ -176,9 +201,9 @@ class Game {
 
     // set up floors
     this.floor = {};
-    this.floor.basement = new Floor(this, ui.floors.basement);
-    this.floor.ground = new Floor(this, ui.floors.ground);
-    this.floor.upper = new Floor(this, ui.floors.upper);
+    this.floor.basement = new Floor(this, 'basement', ui.floors.basement);
+    this.floor.ground = new Floor(this,'ground',  ui.floors.ground);
+    this.floor.upper = new Floor(this,'upper',  ui.floors.upper);
     this.floor.forEach = (fn) => {
       [this.floor.basement, this.floor.ground, this.floor.upper].forEach(fn);
     };
@@ -235,10 +260,34 @@ class Game {
     this.socket.on(
       'update-attribute',
       ({ data: { character, attribute, value } }) => {
+        console.log('update attr');
         if (this.me.name === character) {
           this.me[attribute].setIndex({ x: value, y: 0 });
         }
         // else ignore it
+      },
+    );
+
+    this.socket.on(
+      'add-tile',
+      ({ data: { floor, tile: tileName, id } }) => {
+        const tile = this.search.allItems.find(t => t.name === tileName);
+        if (tile == null) {
+          console.log(floor, tileName, id);
+        }
+        tile.id = id;
+        this.floor[floor].addTile(tile);
+      },
+    );
+
+    this.socket.on(
+      'remove-tile',
+      ({ data: { floor, id } }) => {
+        const tile = this.floor[floor].tiles.find(t => t.id === id);
+        if (tile == null) {
+          console.log(floor, id);
+        }
+        this.floor[floor].removeTile(tile.draggable.el);
       },
     );
   }
