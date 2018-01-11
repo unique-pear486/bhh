@@ -389,7 +389,7 @@ class Game {
       const i = new Image();
       i.src = '/static/img/haunt_table.jpg';
       i.id = 'haunt-chart';
-      const form = document.createElement('form');
+      const form = document.createElement('div');
       const textBox = document.createElement('input');
       const traitorBtn = document.createElement('div');
       const heroBtn = document.createElement('div');
