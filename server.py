@@ -19,16 +19,12 @@ def game(f):
     @wraps(f)
     def wrapper(message):
         try:
-            game = games[message['game']]
+            game = games[message.pop('game')]
         except Exception as e:
             print(message)
             raise(e)
-        if 'data' in message:
-            return f(game, message['data'])
-        else:
-            return f(game)
+        return f(game, **message)
     return wrapper
-
 
 
 @app.route('/')
@@ -56,120 +52,115 @@ def join(message):
 @game
 def echo_game(game):
     print('{} requested game data {}'.format(request.sid, game.name))
-    emit('echo', {'data': game.toDict()})
+    emit('echo', dict(data=game.toDict()))
 
 
 @socketio.on('character-select')
 @game
-def character_select(game, data):
-    character = data['character']
+def character_select(game, character):
     print('{} in {} selected {}'.format(request.sid, game.name, character))
     game.addCharacter(character)
 
 
 @socketio.on('update-haunt')
 @game
-def update_haunt(game, data):
-    haunt = data['index']['x']
+def update_haunt(game, index):
+    haunt = index['x']
     print('{} updated the haunt level to {}'.format(request.sid, haunt))
     game.haunt = haunt
-    emit('update-haunt', {'data': data}, room=game.name,
+    emit('update-haunt', dict(index=index), room=game.name,
          include_self=False)
 
 
 @socketio.on('update-attribute')
 @game
-def update_attributes(game, data):
-    character = data['character']
-    attribute = data['attribute']
-    value = data['value']
+def update_attributes(game, character, attribute, value):
     print('{} updated {}.{} to {}'.format(request.sid, character, attribute,
           value))
     game.characters[character][attribute] = value
-    emit('update-attribute', {'data': data}, room=game.name,
+    emit('update-attribute',
+         dict(character=character, attribute=attribute, value=value),
+         room=game.name,
          include_self=False)
 
 
 @socketio.on('add-tile')
 @game
-def add_tile(game, data):
-    floor = data['floor']
-    id = data['id']
-    tile = data['tile']
+def add_tile(game, floor, id, tile):
     print('{} added tile {} ({}) to {}'.format(request.sid, tile, id, floor))
-    game.floors[floor].append({
-        'tile': tile,
-        'id': id,
-        'rotate': 0,
-        'x': 0,
-        'y': 0,
-        })
-    emit('add-tile', {'data': data}, room=game.name, include_self=False)
+    game.floors[floor].append(dict(
+        tile=tile,
+        id=id,
+        rotate=0,
+        x=0,
+        y=0,
+        ))
+    emit('add-tile',
+         dict(floor=floor, id=id, tile=tile),
+         room=game.name,
+         include_self=False)
 
 
 @socketio.on('remove-tile')
 @game
-def remove_tile(game, data):
-    floor = data['floor']
-    id = data['id']
+def remove_tile(game, floor, id):
     print('{} removed tile {} from {}'.format(request.sid, id, floor))
     tile = game.getTile(floor, id)
     if (tile):
         game.floors[floor].remove(tile)
-        emit('remove-tile', {'data': data}, room=game.name, include_self=False)
+        emit('remove-tile',
+             dict(floor=floor, id=id),
+             room=game.name, include_self=False)
     else:
         pass
 
 
 @socketio.on('rotate-tile')
 @game
-def rotate_tile(game, data):
-    floor = data['floor']
-    id = data['id']
-    rotate = data['rotate']
+def rotate_tile(game, floor, id, rotate):
     print('{} rotated tile {} from {} to {}'.format(request.sid, id, floor,
           rotate))
     tile = game.getTile(floor, id)
     tile['rotate'] = rotate
-    emit('rotate-tile', {'data': data}, room=game.name, include_self=False)
+    emit('rotate-tile',
+         dict(floor=floor, id=id, rotate=rotate),
+         room=game.name, include_self=False)
 
 
 @socketio.on('move-tile')
 @game
-def move_tile(game, data):
-    floor = data['floor']
-    id = data['id']
-    index = data['index']
+def move_tile(game, floor, id, index):
     print('{} moved tile {} from {} to {}'.format(request.sid, id, floor,
           index))
     tile = game.getTile(floor, id)
     tile['x'] = index['x']
     tile['y'] = index['y']
-    emit('move-tile', {'data': data}, room=game.name, include_self=False)
+    emit('move-tile',
+         dict(floor=floor, id=id, index=index),
+         room=game.name, include_self=False)
 
 
 @socketio.on('add-hand-card')
 @game
-def add_hand_card(game, data):
-    character = data['character']
-    card = data['card']
-    id = data['id']
+def add_hand_card(game, character, card, id):
     print('{} added card {} ({}) to {}'.format(request.sid, card, id,
           character))
     game.characters[character]['hand'].append({'name': card, 'id': id})
-    emit('add-hand-card', {'data': data}, room=game.name, include_self=False)
+    emit('add-hand-card',
+         dict(character=character, card=card, id=id),
+         room=game.name, include_self=False)
 
 
 @socketio.on('remove-hand-card')
 @game
-def remove_hand_card(game, data):
-    character = data['character']
-    id = data['id']
+def remove_hand_card(game, character, id):
     print('{} removed card {} from {}'.format(request.sid, id, character))
     cards = [c for c in game.characters[character]['hand'] if c['id'] == id]
     if (cards):
         game.characters[character]['hand'].remove(cards[0])
-        emit('remove-hand-card', {'data': data}, room=game.name,
+        emit('remove-hand-card',
+             dict(character=character, id=id),
+             room=game.name,
              include_self=False)
     else:
         pass
@@ -177,10 +168,10 @@ def remove_hand_card(game, data):
 
 @socketio.on('begin-haunt')
 @game
-def begin_haunt(game, data):
+def begin_haunt(game):
     print('{} began the haunt'.format(request.sid))
     if not game.begun:
-        emit('begin-haunt', {'data': data}, room=game.name, include_self=False)
+        emit('begin-haunt', {}, room=game.name, include_self=False)
         game.begun = True
 
 

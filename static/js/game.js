@@ -263,21 +263,22 @@ class Game {
     this.showCharacterSelect();
   }
 
-  static send(type, data) {
-    this.socket.emit(type, { game: this.name, data });
+  static send(type, inData) {
+    const data = Object.assign({}, inData, { game: this.name });
+    this.socket.emit(type, data);
   }
 
   socketEvents() {
     this.socket.on(
       'update-haunt',
-      ({ data: { index } }) => {
+      ({ index }) => {
         this.haunt.drag.setIndex(index);
       },
     );
 
     this.socket.on(
       'update-attribute',
-      ({ data: { character, attribute, value } }) => {
+      ({ character, attribute, value }) => {
         if (this.me.name === character) {
           this.me[attribute].setIndex({ x: value, y: 0 });
         }
@@ -287,7 +288,7 @@ class Game {
 
     this.socket.on(
       'add-tile',
-      ({ data: { floor, tile: tileName, id } }) => {
+      ({ floor, tile: tileName, id }) => {
         const tile = this.search.allItems.find(t => t.name === tileName);
         tile.id = id;
         this.floor[floor].addTile(tile);
@@ -296,7 +297,7 @@ class Game {
 
     this.socket.on(
       'remove-tile',
-      ({ data: { floor, id } }) => {
+      ({ floor, id }) => {
         const tile = this.floor[floor].tiles.find(t => t.id === id);
         this.floor[floor].removeTile(tile.draggable.el);
       },
@@ -304,7 +305,7 @@ class Game {
 
     this.socket.on(
       'rotate-tile',
-      ({ data: { floor, id, rotate } }) => {
+      ({ floor, id, rotate }) => {
         const tile = this.floor[floor].tiles.find(t => t.id === id);
         tile.rotate = rotate;
         tile.draggable.rotate = rotate;
@@ -313,7 +314,7 @@ class Game {
 
     this.socket.on(
       'move-tile',
-      ({ data: { floor, id, index } }) => {
+      ({ floor, id, index }) => {
         const tile = this.floor[floor].tiles.find(t => t.id === id);
         tile.draggable.setIndex(index);
       },
@@ -321,7 +322,7 @@ class Game {
 
     this.socket.on(
       'add-hand-card',
-      ({ data: { character, card: cardName, id } }) => {
+      ({ character, card: cardName, id }) => {
         if (this.me.name === character) {
           const card = this.search.allItems.find(c => c.name === cardName);
           card.id = id;
@@ -333,7 +334,7 @@ class Game {
 
     this.socket.on(
       'remove-hand-card',
-      ({ data: { character, id } }) => {
+      ({ character, id }) => {
         if (this.me.name === character) {
           const card = this.hand.cards.find(c => c.id === id);
           this.hand.removeCard(card.el);

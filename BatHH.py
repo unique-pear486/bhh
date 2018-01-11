@@ -41,45 +41,45 @@ class Game():
         }
 
     def emit_game_state(self):
-        emit('update-haunt', {'data': {'index': {'x': self.haunt, 'y': 0}}})
+        emit('update-haunt', {'index': {'x': self.haunt, 'y': 0}})
         for floor in self.floors:
             for tile in self.floors[floor]:
                 emit(
                     'add-tile',
-                    {'data': {
-                        'floor': floor,
-                        'id': tile['id'],
-                        'tile': tile['tile'],
-                    }})
+                    dict(
+                        floor=floor,
+                        id=tile['id'],
+                        tile=tile['tile'],
+                    ))
                 emit(
                     'move-tile',
-                    {'data': {
-                        'floor': floor,
-                        'id': tile['id'],
-                        'index': {'x': tile['x'], 'y': tile['y']}
-                    }})
+                    dict(
+                        floor=floor,
+                        id=tile['id'],
+                        index=dict(x=tile['x'], y=tile['y'])
+                    ))
                 emit(
                     'rotate-tile',
-                    {'data': {
-                        'floor': floor,
-                        'id': tile['id'],
-                        'rotate': tile['rotate'],
-                    }})
+                    dict(
+                        floor=floor,
+                        id=tile['id'],
+                        rotate=tile['rotate'],
+                    ))
 
     def emit_character_state(self, character):
         for attr in ['speed', 'might', 'sanity', 'knowledge']:
             emit(
                 'update-attribute',
-                {'data': {
-                    'character': character,
-                    'attribute': attr,
-                    'value': self.characters[character][attr],
-                }})
+                dict(
+                    character=character,
+                    attribute=attr,
+                    value=self.characters[character][attr],
+                ))
         for card in self.characters[character]['hand']:
             emit(
                 'add-hand-card',
-                {'data': {
-                    'character': character,
-                    'card': card['name'],
-                    'id': card['id'],
-                }})
+                dict(
+                    character=character,
+                    card=card['name'],
+                    id=card['id'],
+                ))
