@@ -682,22 +682,13 @@ class Game {
   }
 
   showCharacterSelect() {
-    let imagesLoaded = 0;
     const div = document.createElement('div');
     div.classList.add('character-select');
-
-    const displayOverlay = () => {
-      imagesLoaded += 1;
-      if (imagesLoaded < 12) return;
-      this.overlay.content.removeAttribute('style');
-      this.overlay.display('Choose your character', div, '', false);
-    };
 
     this.characters.forEach((character) => {
       const i = new Image();
       i.classList.add('border');
       // set up onclick
-      i.onload = displayOverlay;
       i.addEventListener('click', () => {
         this.me.img.src = character.img;
         this.me.name = character.name;
@@ -708,5 +699,8 @@ class Game {
       div.appendChild(i);
       i.src = character.img;
     });
+
+    // display character select
+    this.overlay.display('Choose your character', div, '', false);
   }
 }

@@ -267,3 +267,41 @@ img.object {
     justify-content: space-evenly;
     width: 90vw;
 }
+
+.game-select {
+    padding: 0px;
+}
+.game-select > li {
+    display: block;
+    margin: 3px;
+}
+.game-select > li > span {
+    border: 1px solid;
+    margin-right: 20px;
+    height: 25px;
+    line-height: 25px;
+    width: 12em;
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+}
+.game-select > li > span:hover {
+    background: rgba(256,256,256,0.2);
+    cursor:pointer;
+}
+.game-select > li > span.new {
+    background: #337ab7;
+    border: #337ab7;
+}
+.game-select > li > span.new:hover {
+    background: #5288b7;
+}
+.game-select > li > span.delete {
+    width: 5em;
+    background: #d9534f;
+    border: #d9534f;
+}
+.game-select > li > span.delete:hover {
+    background: #d98582;
+}
+

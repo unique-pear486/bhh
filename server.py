@@ -37,6 +37,22 @@ def connect():
     print('{} connected'.format(request.sid))
 
 
+@socketio.on('get-games')
+def get_games():
+    game_list = [g for g in games]
+    print('{} requested games'.format(request.sid))
+    print('current games: {}'.format(game_list))
+    emit('get-games', dict(games=game_list))
+
+
+@socketio.on('delete-game')
+def delete_game(message):
+    game = message['game']
+    print('{} deleted {}'.format(request.sid, game))
+    del(games[game])
+    emit('get-games', dict(games=[g for g in games]))
+
+
 @socketio.on('join')
 def join(message):
     game = message['game']

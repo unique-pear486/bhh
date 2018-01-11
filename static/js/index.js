@@ -3,6 +3,7 @@
 /* globals characters tiles events items omens pieces */
 
 // select ui elements
+let game;
 const ui = {};
 ui.overlay = new Overlay($('#overlay')[0]);
 ui.floors = {
@@ -56,13 +57,86 @@ socket.on('echo', (msg) => {
 echoGame = () => {
   socket.emit('echo-game', { game: 'default' });
 };
+socket.on('get-games', (msg) => {
+  const ul = document.createElement('ul');
+  ul.classList.add('game-select');
 
-socket.emit('join', { game: 'default' });
+  const createGame = () => {
+    const name = prompt('Choose a name for this game:');
+    if (name) {
+      socket.emit('join', { game: name });
+      // start a new game
+      game = new Game(name, ui, {
+        tiles: { name: 'tiles', cards: tiles },
+        events: { name: 'events', cards: events },
+        items: { name: 'items', cards: items },
+        omens: { name: 'omens', cards: omens },
+        pieces: { name: 'pieces', cards: pieces },
+      }, characters, socket);
+    }
+  };
+  const deleteGame = (e) => {
+    const { name } = e.target.parentElement.dataset;
+    const conf = confirm(`Are you sure you want to delete ${name}?`);
+    if (conf) {
+      socket.emit('delete-game', { game: name });
+    }
+  };
+  const joinGame = (e) => {
+    const { name } = e.target.parentElement.dataset;
+    socket.emit('join', { game: name });
+    // start a new game
+    game = new Game(name, ui, {
+      tiles: { name: 'tiles', cards: tiles },
+      events: { name: 'events', cards: events },
+      items: { name: 'items', cards: items },
+      omens: { name: 'omens', cards: omens },
+      pieces: { name: 'pieces', cards: pieces },
+    }, characters, socket);
+  };
 
-const game = new Game('default', ui, {
-  tiles: { name: 'tiles', cards: tiles },
-  events: { name: 'events', cards: events },
-  items: { name: 'items', cards: items },
-  omens: { name: 'omens', cards: omens },
-  pieces: { name: 'pieces', cards: pieces },
-}, characters, socket);
+  // For each existing game, add them to the list
+  msg.games.forEach((g) => {
+    const li = document.createElement('li');
+    const name = document.createElement('span');
+    const del = document.createElement('span');
+    name.innerHTML = g;
+    name.addEventListener('click', joinGame);
+    del.innerHTML = 'Delete';
+    del.classList.add('delete');
+    del.addEventListener('click', deleteGame);
+    li.appendChild(name);
+    li.appendChild(del);
+    li.dataset.name = g;
+    ul.appendChild(li);
+  });
+
+  const newGame = document.createElement('li');
+  newGame.innerHTML = '<span class="new">New</span>';
+  newGame.addEventListener('click', createGame);
+  ul.appendChild(newGame);
+
+  ui.overlay.display('Choose game...', ul, '', false);
+});
+
+
+window.addEventListener('load', () => {
+  // remove the loading div (there to ensure images have finished loading
+  // before the game starts
+  $('#loader').remove();
+
+  // Show game-select screen
+  socket.emit('get-games');
+});
+
+/*{
+  socket.emit('join', { game: 'default' });
+  // start a new game
+  game = new Game('default', ui, {
+    tiles: { name: 'tiles', cards: tiles },
+    events: { name: 'events', cards: events },
+    items: { name: 'items', cards: items },
+    omens: { name: 'omens', cards: omens },
+    pieces: { name: 'pieces', cards: pieces },
+  }, characters, socket);
+}*/
