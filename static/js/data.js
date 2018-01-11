@@ -352,7 +352,7 @@ const tiles = [
   },
   {
     upper: 1,
-    name: 'Servants\u2019 Quarters',
+    name: 'Servants Quarters',
     text: '',
     omen: 1,
     filename: '/static/img/ub_servantsquarters.jpg',
@@ -627,7 +627,7 @@ const events = [
     type: 'events',
   },
   {
-    name: 'Drip',
+    name: 'Drip...',
     filename: '/static/img/event_drip.jpg',
     type: 'events',
   },
@@ -677,7 +677,7 @@ const events = [
     type: 'events',
   },
   {
-    name: 'Jonah\u2019s Turn',
+    name: 'Jonahs Turn',
     filename: '/static/img/event_jonahsturn.jpg',
     type: 'events',
   },
@@ -890,7 +890,7 @@ const items = [
     type: 'items',
   },
   {
-    name: 'Pick Pocket\u2019s Gloves',
+    name: 'Pick Pockets Gloves',
     filename: '/static/img/item_pickpocketsgloves.jpg',
     type: 'items',
   },
@@ -900,7 +900,7 @@ const items = [
     type: 'items',
   },
   {
-    name: 'Rabbit\u2019s Foot',
+    name: 'Rabbits Foot',
     filename: '/static/img/item_rabbitsfoot.jpg',
     type: 'items',
   },
@@ -1042,12 +1042,12 @@ const pieces = [
   },
   {
     type: 'monster',
-    name: 'Frankenstein\u2019s Monster',
+    name: 'Frankensteins Monster',
     filename: '/static/img/monster_frankensteind.png',
   },
   {
     type: 'monsterStun',
-    name: 'Frankenstein\u2019s Monster (stunned)',
+    name: 'Frankensteins Monster (stunned)',
     filename: '/static/img/monster_frankenstein_stun.png',
   },
   {
