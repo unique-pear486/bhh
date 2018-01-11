@@ -144,10 +144,11 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    pointer-events: none;
 }
 #hand img {
     height: 250px;
-    pointer-events: auto;
+    pointer-events: all;
 }
 .ui {
     z-index: 99;
