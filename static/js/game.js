@@ -160,6 +160,10 @@ class Floor {
       });
     }
 
+    // if tile is already on floor exit
+    const index = this.tiles.findIndex(t => t.id === tile.id);
+    if (index !== -1) return;
+
     // Add image to page
     const i = new Image();
     i.src = tile.filename;
@@ -531,8 +535,13 @@ class Game {
     // create a method to add the item when clicked
     const addItem = (e) => {
       // find the result clicked
-      const item = this.search.results[e.target.dataset.index];
-      if (item == null) return;
+      const searchResult = this.search.results[e.target.dataset.index];
+      if (searchResult == null) return;
+
+      // Make a new item
+      const item = Object.assign({}, searchResult);
+      delete item.id;
+
       switch (item.type) {
         case 'tiles':
           this.floor.selected.addTile(item);
@@ -692,7 +701,7 @@ class Game {
       i.addEventListener('click', () => {
         this.me.img.src = character.img;
         this.me.name = character.name;
-        this.floor.selected.addTile(character);
+        //this.floor.selected.addTile(character);
         this.overlay.hide();
         this.send('character-select', { character: character.name });
       });
