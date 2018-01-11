@@ -24,8 +24,13 @@ class Deck {
     const i = new Image();
     i.src = this.next.filename;
     this.game.overlay.display(this.next.name, i, '', true);
+
+    // create a new card making sure it has no id
+    const newCard = Object.assign({}, this.next);
+    delete newCard.id;
+
     // put it in the hand
-    this.game.hand.addCard(this.next);
+    this.game.hand.addCard(newCard);
     // Remove it from the deck
     this.removeCard();
     // Refresh the next card
@@ -75,6 +80,11 @@ class TileDeck extends Deck {
     const i = new Image();
     i.src = this.next.filename;
     this.game.overlay.display(this.next.name, i, '', true);
+
+    // create a new card making sure it has no id
+    const newCard = Object.assign({}, this.next);
+    delete newCard.id;
+
     // put it on the selected floor
     this.game.floor.selected.addTile(this.next);
     // remove next card from deck
@@ -293,7 +303,7 @@ class Game {
     this.socket.on(
       'add-tile',
       ({ floor, tile: tileName, id }) => {
-        const tile = this.search.allItems.find(t => t.name === tileName);
+        const tile = Object.assign({}, this.search.allItems.find(t => t.name === tileName));
         tile.id = id;
         this.floor[floor].addTile(tile);
       },
