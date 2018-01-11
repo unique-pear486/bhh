@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* globals $ Draggable Overlay Game io */
+/* globals $ Overlay Game io */
 /* globals characters tiles events items omens pieces */
 
 // select ui elements
@@ -26,11 +26,11 @@ ui.tileDeck = {
   $ground: $('#tile-ground'),
   $upper: $('#tile-upper'),
 };
-ui.eventDeck = $('#event-deck')[0];
-ui.itemDeck = $('#item-deck')[0];
-ui.omenDeck = $('#omen-deck')[0];
-ui.dice = $('#dice')[0];
-ui.search = $('#search')[0];
+[ui.eventDeck] = $('#event-deck');
+[ui.itemDeck] = $('#item-deck');
+[ui.omenDeck] = $('#omen-deck');
+[ui.dice] = $('#dice');
+[ui.search] = $('#search');
 ui.me = {
   characterImg: $('#character > img')[0],
   speed: $('#speed-marker')[0],
@@ -38,7 +38,7 @@ ui.me = {
   sanity: $('#sanity-marker')[0],
   knowledge: $('#knowledge-marker')[0],
 };
-ui.hand = $('#hand')[0];
+[ui.hand] = $('#hand');
 
 // Set up the socket connection
 const socket = io();
@@ -48,9 +48,6 @@ window.addEventListener(
   'beforeunload',
   socket.disconnect,
 );
-
-// Start a game
-let game;
 
 // DEBUG:
 socket.on('echo', (msg) => {
@@ -62,7 +59,7 @@ echoGame = () => {
 
 socket.emit('join', { game: 'default' });
 
-game = new Game('default', ui, {
+const game = new Game('default', ui, {
   tiles: { name: 'tiles', cards: tiles },
   events: { name: 'events', cards: events },
   items: { name: 'items', cards: items },

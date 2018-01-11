@@ -217,8 +217,8 @@ class Game {
     // set up floors
     this.floor = {};
     this.floor.basement = new Floor(this, 'basement', ui.floors.basement);
-    this.floor.ground = new Floor(this,'ground',  ui.floors.ground);
-    this.floor.upper = new Floor(this,'upper',  ui.floors.upper);
+    this.floor.ground = new Floor(this, 'ground', ui.floors.ground);
+    this.floor.upper = new Floor(this, 'upper', ui.floors.upper);
     this.floor.forEach = (fn) => {
       [this.floor.basement, this.floor.ground, this.floor.upper].forEach(fn);
     };
@@ -544,7 +544,6 @@ class Game {
           break;
         default:
           this.floor.selected.addTile(item);
-          console.log(`other: ${item.type}`);
       }
       this.overlay.hide();
     };
