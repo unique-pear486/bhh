@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     overflow: hidden;
+    background: #0A0A0A;
 }
 #overlay {
     z-index: 500;
