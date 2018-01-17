@@ -26,15 +26,6 @@ body {
     top: 0;
     right: 0;
 }
-#basement {
-    z-index: 0;
-}
-#ground {
-    z-index: 1;
-}
-#upper {
-    z-index: 2;
-}
 #tracker {
     top: 20px;
     left: 20px;
@@ -157,20 +148,26 @@ body {
 .floor {
     background: #000;
     position: fixed;
-    top: calc(-1000px + 50vh);
-    left: calc(-1000px + 50vw);
-    width: 2000px;
-    height: 2000px;
-    padding: 1000px;
+    top: calc(-2000px + 50vh);
+    left: calc(-2000px + 50vw);
+    width: 100px;
+    height: 100px;
+    padding: 2000px;
 }
 .floor > img {
     height: 100px;
     position: absolute;
+    z-index: 0;
 }
 img.object {
     height: 30px;
     width: 30px;
     z-index: 10;
+}
+img.character {
+    height: 30px;
+    width: 30px;
+    z-index: 15;
 }
 .hidd {
     display: none !important;

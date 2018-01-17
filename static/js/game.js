@@ -176,17 +176,35 @@ class Floor {
 
     // Add image to page
     const i = new Image();
+    let grid = [100, 100];
     i.src = tile.filename;
     this.el.appendChild(i);
-    i.style.top = '1000px';
-    i.style.left = '1000px';
+    i.style.top = '2000px';
+    i.style.left = '2000px';
     i.dataset.id = tile.id;
 
-    // if the tile is not a floortile give it the object class and offset
-    if (tile.type !== 'tiles') {
+    // Tile layout:
+    // -X is the object locations
+    // -O is the character locations
+    // -all within the floor tile square
+    //
+    // X---X---X
+    // | O   O |
+    // X   X   X
+    // | O   O |
+    // X---X---X
+    //
+    // if the tile is a character
+    if (tile.type === 'characters') {
+      i.classList.add('character');
+      i.style.top = '2010px';
+      i.style.left = '2010px';
+      grid = [50, 50];
+    } else if (tile.type !== 'tiles') {
       i.classList.add('object');
-      i.style.top = '1035px';
-      i.style.left = '1035px';
+      i.style.top = '2035px';
+      i.style.left = '2035px';
+      grid = [50, 50];
     }
     i.addEventListener('click', (e) => {
       e.preventDefault();
@@ -201,7 +219,7 @@ class Floor {
         this.rotateTile(e.target);
       }
     });
-    tile.draggable = new Draggable(i, { grid: [100, 100] });
+    tile.draggable = new Draggable(i, { grid });
     tile.rotate = 0;
     this.tiles.push(tile);
 
