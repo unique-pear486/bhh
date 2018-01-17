@@ -1077,7 +1077,7 @@ const pieces = [
   },
   {
     type: 'monster',
-    name: 'Spider',
+    name: 'Spider Token',
     filename: '/static/img/monster_spider.png',
   },
   {
@@ -1207,7 +1207,7 @@ const pieces = [
   },
   {
     type: 'square',
-    name: 'Secret Stairs',
+    name: 'Secret Stairs Token',
     filename: '/static/img/sq_secret_stairs.png',
   },
   {
@@ -1222,7 +1222,7 @@ const pieces = [
   },
   {
     type: 'square',
-    name: 'Smoke',
+    name: 'Smoke Token',
     filename: '/static/img/sq_smoke.png',
   },
   {
