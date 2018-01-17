@@ -625,7 +625,7 @@ class Game {
     el.addEventListener('click', searchDecks);
   }
 
-  characterCard({ characterImg, speed, might, sanity, knowledge }) {
+  characterCard({ characterImg, speed, might, sanity, knowledge, icon }) {
     const options = {
       grid: [15.5, 1],
       axis: 'x',
@@ -652,6 +652,13 @@ class Game {
     this.me.might.registerFunc(updateValue('might'));
     this.me.sanity.registerFunc(updateValue('sanity'));
     this.me.knowledge.registerFunc(updateValue('knowledge'));
+
+    const addCharacter = () => {
+      // find our character and make a new object
+      const character = Object.assign({}, this.characters.find(c => c.name === this.me.name));
+      this.floor.selected.addTile(character);
+    };
+    icon.addEventListener('click', addCharacter);
   }
 
   setupHand(el) {
@@ -729,7 +736,6 @@ class Game {
       i.addEventListener('click', () => {
         this.me.img.src = character.img;
         this.me.name = character.name;
-        //this.floor.selected.addTile(character);
         this.overlay.hide();
         this.send('character-select', { character: character.name });
       });

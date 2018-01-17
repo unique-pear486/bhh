@@ -38,6 +38,7 @@ ui.me = {
   might: $('#might-marker')[0],
   sanity: $('#sanity-marker')[0],
   knowledge: $('#knowledge-marker')[0],
+  icon: $('#character-icon')[0],
 };
 [ui.hand] = $('#hand');
 

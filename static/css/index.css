@@ -127,6 +127,14 @@ body {
     position: absolute;
     transform: rotate(288deg);
 }
+#character-icon {
+    width: 160px;
+    height: 160px;
+    top: 106px;
+    left: 104px;
+    position: absolute;
+    border-radius: 80px;
+}
 #hand {
     z-index: 98;
     bottom: 0px;
@@ -302,4 +310,3 @@ img.character {
 .game-select > li > span.delete:hover {
     background: #d98582;
 }
-
