@@ -156,6 +156,117 @@ class Draggable {
   }
 }
 
+class DragZoomable {
+  constructor(el) {
+    // el is a page element
+    this.el = el;
+    this.mouseDown = DragZoomable.mouseDown.bind(this);
+    this.mouseUp = DragZoomable.mouseUp.bind(this);
+    this.mouseMove = DragZoomable.mouseMove.bind(this);
+    this.mouseWheel = DragZoomable.mouseWheel.bind(this);
+    el.addEventListener('mousedown', this.mouseDown);
+    el.addEventListener('wheel', this.mouseWheel);
+
+    // set top and left to 0px if not already set
+    this.el.style.top = window.getComputedStyle(this.el, null).top;
+    if (this.el.style.top === 'auto') { this.el.style.top = '0px'; }
+    this.el.style.left = window.getComputedStyle(this.el, null).left;
+    if (this.el.style.left === 'auto') { this.el.style.left = '0px'; }
+    this.el.style.transformOrigin = 'top left';
+
+    this.x = 0;
+    this.y = 0;
+    this.zoom = 1;
+  }
+
+  static mouseDown(e) {
+    //
+    e.preventDefault();
+    e.stopPropagation();
+    document.addEventListener('mousemove', this.mouseMove);
+    document.addEventListener('mouseup', this.mouseUp);
+
+    // get the transformation matrices
+    this.m = getTransform(this.el);
+    this.mInv = this.m.inverse();
+
+    // store the initial positions
+    this.startX = parseInt(this.el.style.left, 10);
+    this.startY = parseInt(this.el.style.top, 10);
+    this.mouseStartX = e.clientX;
+    this.mouseStartY = e.clientY;
+
+    // reset x and y
+    this.x = 0;
+    this.y = 0;
+  }
+
+  static mouseMove(e) {
+    e.preventDefault();
+    // get mouse move since start of drag
+    const x = e.clientX - this.mouseStartX;
+    const y = e.clientY - this.mouseStartY;
+    // transform it into local axes
+    const p = this.mInv.transformPoint({ x, y });
+
+    this.x = p.x;
+    this.y = p.y;
+
+    this.el.style.transform = this.getMatrix();
+  }
+
+  static mouseUp(e) {
+    e.preventDefault();
+
+    // (permanently) Set transformation
+    const x = this.startX + this.x;
+    const y = this.startY + this.y;
+    this.x = 0;
+    this.y = 0;
+    this.el.style.transform = this.getMatrix();
+    this.el.style.left = `${x}px`;
+    this.el.style.top = `${y}px`;
+
+    // Remove listener
+    document.removeEventListener('mousemove', this.mouseMove);
+    document.removeEventListener('mouseup', this.mouseUp);
+  }
+
+  static mouseWheel(e) {
+    // get the offset relative to the Zoomable element
+    let { offsetX, offsetY } = e;
+    let element = e.target;
+    while (element !== this.el) {
+      offsetX += element.offsetLeft;
+      offsetY += element.offsetTop;
+      element = element.parentElement;
+    }
+
+    let factor = 1;
+    if (e.deltaY > 0) {
+      factor = 1.2;
+    }
+    if (e.deltaY < 0) {
+      factor = 1 / 1.2;
+    }
+    this.startX = parseInt(this.el.style.left, 10);
+    this.startY = parseInt(this.el.style.top, 10);
+    const x = this.startX - (this.zoom * offsetX * (factor - 1));
+    const y = this.startY - (this.zoom * offsetY * (factor - 1));
+    this.zoom *= factor;
+    this.el.style.transform = this.getMatrix();
+    this.el.style.left = `${x.toFixed(1)}px`;
+    this.el.style.top = `${y.toFixed(1)}px`;
+  }
+
+  getMatrix() {
+    const zoom = this.zoom.toFixed(5);
+    const x = this.x.toFixed(0);
+    const y = this.y.toFixed(0);
+    return `translate(${x}px, ${y}px) scale(${zoom})`;
+  }
+}
+
 class Overlay {
   constructor(el) {
     this.el = el;

@@ -167,6 +167,9 @@ body {
     position: absolute;
     z-index: 0;
 }
+.bg {
+    pointer-events: none;
+}
 img.object {
     height: 30px;
     width: 30px;

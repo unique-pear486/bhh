@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* globals Draggable Fuse */
+/* globals Draggable DragZoomable Fuse */
 'use strict';
 
 
@@ -115,7 +115,7 @@ class Floor {
     this.game = game;
     this.name = name;
     this.el = el;
-    this.drag = new Draggable(el);
+    this.drag = new DragZoomable(el);
     this.tiles = [];
     this.showTile = (img) => {
       // Match the tile based on clicked image
