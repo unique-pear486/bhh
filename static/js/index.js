@@ -6,6 +6,7 @@
 let game;
 const ui = {};
 ui.overlay = new Overlay($('#overlay')[0]);
+[ui.helpDiv] = $('#help');
 ui.floors = {
   basement: $('#basement')[0],
   ground: $('#ground')[0],
@@ -118,6 +119,17 @@ socket.on('get-games', (msg) => {
   ul.appendChild(newGame);
 
   ui.overlay.display('Choose game...', ul, '', false);
+
+  // help button
+  const help = document.createElement('div');
+  const helpImg = new Image();
+  help.id = 'help-btn';
+  help.classList.add('border');
+  helpImg.src = '/static/img/help.png';
+  helpImg.style.width = '80px';
+  help.appendChild(helpImg);
+  ui.overlay.el.appendChild(help);
+  help.addEventListener('click', () => ui.helpDiv.classList.remove('hidd'));
 });
 
 
@@ -130,14 +142,26 @@ const showGameSelect = () => {
   // remove the loading div (there to ensure images have finished loading
   // before the game starts
   $('#loader').remove();
-
-  // DEBUG:
-  console.log('running showGameSelect');
   // Show game-select screen
   socket.emit('get-games');
 };
 
 // Open the game select window after all items are loaded or after 5 sec
 window.addEventListener('load', showGameSelect);
-console.log('starting countdown...');
 timeoutID = window.setTimeout(showGameSelect, 5000);
+
+
+// Set up the help screen
+ui.helpDiv.addEventListener('click', () => {
+  ui.helpDiv.classList.add('hidd');
+});
+const bindHelpKeys = (e) => {
+  // if the h-key is pressed and there is no other overlay, show help
+  if (e.key === 'h' && !ui.overlay.isShowing) {
+    ui.helpDiv.classList.remove('hidd');
+  }
+  if (e.key === 'Escape') {
+    ui.helpDiv.classList.add('hidd');
+  }
+};
+window.addEventListener('keypress', bindHelpKeys);

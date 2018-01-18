@@ -274,7 +274,9 @@ class Overlay {
     this.content = document.querySelector(`#${el.id} > div:nth-child(2)`);
     this.text = document.querySelector(`#${el.id} > div:nth-child(3)`);
     this.exit = document.querySelector(`#${el.id} > div:nth-child(4)`);
+    this.keyBindings = Overlay.keyBindings.bind(this);
     this.hide = Overlay.hide.bind(this);
+    this.isShowing = false;
 
     this.onClick = Overlay.onClick.bind(this);
     this.exit.addEventListener('click', this.hide);
@@ -287,6 +289,12 @@ class Overlay {
   }
   static hide() {
     this.el.classList.add('hidd');
+    this.isShowing = false;
+  }
+  static keyBindings(e) {
+    if (e.key === 'Escape') {
+      this.hide();
+    }
   }
 
   display(title, content, text, showExit = false) {
@@ -303,11 +311,13 @@ class Overlay {
     if (showExit) {
       this.exit.classList.remove('hidd');
       this.el.addEventListener('click', this.onClick);
+      window.addEventListener('keypress', this.keyBindings);
     } else {
       this.el.removeEventListener('click', this.onClick);
       this.exit.classList.add('hidd');
     }
 
     this.el.classList.remove('hidd');
+    this.isShowing = true;
   }
 }

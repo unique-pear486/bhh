@@ -3,7 +3,7 @@ body {
     overflow: hidden;
     background: #0A0A0A;
 }
-#overlay {
+#overlay, #help {
     z-index: 500;
     background: #333;
     position: fixed;
@@ -15,14 +15,26 @@ body {
     color: white;
     align-items: center;
 }
-#overlay-title {
+#help {
+    z-index: 501;
+    overflow: auto;
+    justify-content: flex-start;
+}
+#help li {
+    margin: 0 0 3px 0;
+}
+#help a {
+    color: grey;
+}
+#overlay-title, #help-title {
     font: 400 130px/0.8 'Great Vibes', Helvetica, sans-serif;
+    margin-top: 32px;
 }
 #overlay-text {
     width: 80%;
     font-style: italic;
 }
-#overlay-exit {
+#overlay-exit, #help-exit {
     position: absolute;
     top: 0;
     right: 0;
@@ -314,4 +326,10 @@ img.character {
 }
 .game-select > li > span.delete:hover {
     background: #d98582;
+}
+#help-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 40px;
 }
