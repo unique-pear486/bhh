@@ -55,7 +55,7 @@ window.addEventListener(
 socket.on('echo', (msg) => {
   console.log(msg.data);
 });
-echoGame = () => {
+const echoGame = () => {
   socket.emit('echo-game', { game: 'default' });
 };
 socket.on('get-games', (msg) => {
@@ -121,23 +121,23 @@ socket.on('get-games', (msg) => {
 });
 
 
-window.addEventListener('load', () => {
+let timeoutID;
+const showGameSelect = () => {
+  // remove event listeners
+  window.removeEventListener('load', showGameSelect);
+  window.clearTimeout(timeoutID);
+
   // remove the loading div (there to ensure images have finished loading
   // before the game starts
   $('#loader').remove();
 
+  // DEBUG:
+  console.log('running showGameSelect');
   // Show game-select screen
   socket.emit('get-games');
-});
+};
 
-/*{
-  socket.emit('join', { game: 'default' });
-  // start a new game
-  game = new Game('default', ui, {
-    tiles: { name: 'tiles', cards: tiles },
-    events: { name: 'events', cards: events },
-    items: { name: 'items', cards: items },
-    omens: { name: 'omens', cards: omens },
-    pieces: { name: 'pieces', cards: pieces },
-  }, characters, socket);
-}*/
+// Open the game select window after all items are loaded or after 5 sec
+window.addEventListener('load', showGameSelect);
+console.log('starting countdown...');
+timeoutID = window.setTimeout(showGameSelect, 5000);
