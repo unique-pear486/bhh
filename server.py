@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO, join_room, emit
+from flask_socketio import SocketIO, join_room, leave_room, emit
 from BatHH import Game
 import logging
 
@@ -9,6 +9,7 @@ app.config['SECRET_KEY'] = '\x0e\x94p\xcc\xcfeB\x1d\x1b7\x8e\xba\xd2\xf4\xd6\xea
 socketio = SocketIO(app)
 
 games = {}
+LOBBY = '_lobby'    # room name for the lobby
 
 
 def game(f):
@@ -51,6 +52,7 @@ def connect():
 @socketio.on('get-games')
 def get_games():
     game_list = [g for g in games]
+    join_room(LOBBY)
     logging.info(u'{} requested games'.format(request.sid))
     logging.info(u'current games: {}'.format(game_list))
     emit('get-games', dict(games=game_list))
@@ -61,16 +63,18 @@ def delete_game(message):
     game = message['game']
     logging.info(u'{} deleted {}'.format(request.sid, game))
     del(games[game])
-    emit('get-games', dict(games=[g for g in games]))
+    emit('get-games', dict(games=[g for g in games]), room=LOBBY)
 
 
 @socketio.on('join')
 def join(message):
     game = check_game_name(message['game'])
     logging.info(u'{} joined game {}'.format(request.sid, game))
+    leave_room(LOBBY)
     join_room(game)
     if game not in games:
         games[game] = Game(game)
+        emit('get-games', dict(games=[g for g in games]), room=LOBBY)
     games[game].emit_game_state()
 
 
