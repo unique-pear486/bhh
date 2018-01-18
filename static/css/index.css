@@ -329,7 +329,30 @@ img.character {
 }
 #help-btn {
     position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 40px;
+    top: 10px;
+    left: 10px;
+    width: 62px;
+    height: 62px;
+    border-radius: 31px;
+    animation-duration: 3s;
+    animation-name: breathe;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+#help-btn:hover {
+    box-shadow: 0 0 0 3px orange;
+    animation: none;
+}
+#help-btn > img {
+    margin: -9px;
+}
+@keyframes breathe {
+    from {
+        background: rgba(200,200,200,0.2);
+        box-shadow: 0 0 50px 0 rgba(255,255,255,0.5);
+    }
+    to {
+        background: rgba(200,200,200,0);
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.5);
+    }
 }

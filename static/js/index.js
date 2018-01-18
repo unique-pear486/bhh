@@ -124,7 +124,6 @@ socket.on('get-games', (msg) => {
   const help = document.createElement('div');
   const helpImg = new Image();
   help.id = 'help-btn';
-  help.classList.add('border');
   helpImg.src = '/static/img/help.png';
   helpImg.style.width = '80px';
   help.appendChild(helpImg);
