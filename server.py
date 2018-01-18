@@ -2,11 +2,11 @@ from functools import wraps
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room, emit
 from BatHH import Game
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x0e\x94p\xcc\xcfeB\x1d\x1b7\x8e\xba\xd2\xf4\xd6\xea\xf5\x80\xbe\xe0e\xbe\x90m'
 socketio = SocketIO(app)
-
 
 games = {}
 
@@ -27,6 +27,17 @@ def game(f):
     return wrapper
 
 
+def check_game_name(name):
+    """
+    Game names cannot begin with _
+    """
+    while(name[0] == '_'):
+        name = name[1:]
+    if name == '':
+        raise ValueError('game name must not be empty')
+    return name
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -34,29 +45,29 @@ def index():
 
 @socketio.on('connect')
 def connect():
-    print('{} connected'.format(request.sid))
+    logging.info(u'{} connected'.format(request.sid))
 
 
 @socketio.on('get-games')
 def get_games():
     game_list = [g for g in games]
-    print('{} requested games'.format(request.sid))
-    print('current games: {}'.format(game_list))
+    logging.info(u'{} requested games'.format(request.sid))
+    logging.info(u'current games: {}'.format(game_list))
     emit('get-games', dict(games=game_list))
 
 
 @socketio.on('delete-game')
 def delete_game(message):
     game = message['game']
-    print('{} deleted {}'.format(request.sid, game))
+    logging.info(u'{} deleted {}'.format(request.sid, game))
     del(games[game])
     emit('get-games', dict(games=[g for g in games]))
 
 
 @socketio.on('join')
 def join(message):
-    game = message['game']
-    print('{} joined game {}'.format(request.sid, game))
+    game = check_game_name(message['game'])
+    logging.info(u'{} joined game {}'.format(request.sid, game))
     join_room(game)
     if game not in games:
         games[game] = Game(game)
@@ -67,14 +78,15 @@ def join(message):
 @socketio.on('echo-game')
 @game
 def echo_game(game):
-    print('{} requested game data {}'.format(request.sid, game.name))
+    logging.info(u'{} requested game data {}'.format(request.sid, game.name))
     emit('echo', dict(data=game.toDict()))
 
 
 @socketio.on('character-select')
 @game
 def character_select(game, character):
-    print('{} in {} selected {}'.format(request.sid, game.name, character))
+    logging.info(u'{} in {} selected {}'.format(request.sid, game.name,
+                 character))
     game.addCharacter(character)
 
 
@@ -82,7 +94,7 @@ def character_select(game, character):
 @game
 def update_haunt(game, index):
     haunt = index['x']
-    print('{} updated the haunt level to {}'.format(request.sid, haunt))
+    logging.info(u'{} updated the haunt level to {}'.format(request.sid, haunt))
     game.haunt = haunt
     emit('update-haunt', dict(index=index), room=game.name,
          include_self=False)
@@ -91,8 +103,8 @@ def update_haunt(game, index):
 @socketio.on('update-attribute')
 @game
 def update_attributes(game, character, attribute, value):
-    print('{} updated {}.{} to {}'.format(request.sid, character, attribute,
-          value))
+    logging.info(u'{} updated {}.{} to {}'.format(request.sid, character,
+                 attribute, value))
     game.characters[character][attribute] = value
     emit('update-attribute',
          dict(character=character, attribute=attribute, value=value),
@@ -103,7 +115,8 @@ def update_attributes(game, character, attribute, value):
 @socketio.on('add-tile')
 @game
 def add_tile(game, floor, id, tile):
-    print('{} added tile {} ({}) to {}'.format(request.sid, tile, id, floor))
+    logging.info(u'{} added tile {} ({}) to {}'.format(request.sid, tile, id,
+                 floor))
     game.floors[floor].append(dict(
         tile=tile,
         id=id,
@@ -120,7 +133,7 @@ def add_tile(game, floor, id, tile):
 @socketio.on('remove-tile')
 @game
 def remove_tile(game, floor, id):
-    print('{} removed tile {} from {}'.format(request.sid, id, floor))
+    logging.info(u'{} removed tile {} from {}'.format(request.sid, id, floor))
     tile = game.getTile(floor, id)
     if (tile):
         game.floors[floor].remove(tile)
@@ -134,8 +147,8 @@ def remove_tile(game, floor, id):
 @socketio.on('rotate-tile')
 @game
 def rotate_tile(game, floor, id, rotate):
-    print('{} rotated tile {} from {} to {}'.format(request.sid, id, floor,
-          rotate))
+    logging.info(u'{} rotated tile {} from {} to {}'.format(request.sid, id,
+                 floor, rotate))
     tile = game.getTile(floor, id)
     tile['rotate'] = rotate
     emit('rotate-tile',
@@ -146,8 +159,8 @@ def rotate_tile(game, floor, id, rotate):
 @socketio.on('move-tile')
 @game
 def move_tile(game, floor, id, index):
-    print('{} moved tile {} from {} to {}'.format(request.sid, id, floor,
-          index))
+    logging.info(u'{} moved tile {} from {} to {}'.format(request.sid, id,
+                 floor, index))
     tile = game.getTile(floor, id)
     tile['x'] = index['x']
     tile['y'] = index['y']
@@ -159,8 +172,8 @@ def move_tile(game, floor, id, index):
 @socketio.on('add-hand-card')
 @game
 def add_hand_card(game, character, card, id):
-    print('{} added card {} ({}) to {}'.format(request.sid, card, id,
-          character))
+    logging.info(u'{} added card {} ({}) to {}'.format(request.sid, card, id,
+                 character))
     game.characters[character]['hand'].append({'name': card, 'id': id})
     emit('add-hand-card',
          dict(character=character, card=card, id=id),
@@ -170,7 +183,8 @@ def add_hand_card(game, character, card, id):
 @socketio.on('remove-hand-card')
 @game
 def remove_hand_card(game, character, id):
-    print('{} removed card {} from {}'.format(request.sid, id, character))
+    logging.info(u'{} removed card {} from {}'.format(request.sid, id,
+                 character))
     cards = [c for c in game.characters[character]['hand'] if c['id'] == id]
     if (cards):
         game.characters[character]['hand'].remove(cards[0])
@@ -185,7 +199,7 @@ def remove_hand_card(game, character, id):
 @socketio.on('begin-haunt')
 @game
 def begin_haunt(game):
-    print('{} began the haunt'.format(request.sid))
+    logging.info(u'{} began the haunt'.format(request.sid))
     if not game.begun:
         emit('begin-haunt', {}, room=game.name, include_self=False)
         game.begun = True
