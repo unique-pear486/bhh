@@ -294,6 +294,7 @@ img.character {
     display: inline-block;
     text-align: center;
     border-radius: 5px;
+    overflow: hidden;
 }
 .game-select > li > span:hover {
     background: rgba(256,256,256,0.2);

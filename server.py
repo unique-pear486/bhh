@@ -19,11 +19,7 @@ def game(f):
     """
     @wraps(f)
     def wrapper(message):
-        try:
-            game = games[message.pop('game')]
-        except Exception as e:
-            print(message)
-            raise(e)
+        game = games[message.pop('game')]
         return f(game, **message)
     return wrapper
 

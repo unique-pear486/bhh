@@ -101,7 +101,7 @@ socket.on('get-games', (msg) => {
     const li = document.createElement('li');
     const name = document.createElement('span');
     const del = document.createElement('span');
-    name.innerHTML = g;
+    name.appendChild(document.createTextNode(g));
     name.addEventListener('click', joinGame);
     del.innerHTML = 'Delete';
     del.classList.add('delete');
