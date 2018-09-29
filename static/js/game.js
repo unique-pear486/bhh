@@ -376,6 +376,13 @@ class Game {
     );
 
     this.socket.on(
+      'roll-dice',
+      ({ character, diceroll }) => {
+        console.log(`${character} rolled ${diceroll}`);
+      },
+    );
+
+    this.socket.on(
       'begin-haunt',
       () => {
         this.haunt.begin();
@@ -531,11 +538,17 @@ class Game {
         '/static/img/dice_2.png',
       ];
       const div = document.createElement('div');
+      const rolls = [];
       for (let i = 0; i < dice; i += 1) {
         const img = new Image();
-        img.src = images[Math.floor(Math.random() * images.length)];
+        rolls.unshift(Math.floor(Math.random() * images.length));
+        img.src = images[rolls[0]];
         div.appendChild(img);
       }
+      this.send('roll-dice', {
+        character: this.me.name,
+        diceroll: rolls,
+      });
       this.overlay.display(`Roll ${dice} dice:`, div, '', true);
     }
   }

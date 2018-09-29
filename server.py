@@ -196,6 +196,17 @@ def remove_hand_card(game, character, id):
         pass
 
 
+@socketio.on('roll-dice')
+@game
+def roll_dice(game, character, diceroll):
+    logging.info(u'{} rolled {} dice getting {} as {}'.format(request.sid,
+                 len(diceroll), diceroll, character))
+    emit('roll-dice',
+         dict(character=character, diceroll=diceroll),
+         room=game.name,
+         include_self=True)
+
+
 @socketio.on('begin-haunt')
 @game
 def begin_haunt(game):
