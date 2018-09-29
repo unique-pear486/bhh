@@ -278,16 +278,16 @@ class Game {
       }
     );
     $deck
-      .hover(setTileImg('img/Tile_bgu.png'), setTileImg('img/Tile_.png'))
+      .hover(setTileImg('/static/img/Tile_bgu.png'), setTileImg('/static/img/Tile_.png'))
       .click(getTile({ restrictFloor: null }));
     $basement
-      .hover(setTileImg('img/Tile_b.png'), setTileImg('img/Tile_bgu.png'))
+      .hover(setTileImg('/static/img/Tile_b.png'), setTileImg('/static/img/Tile_bgu.png'))
       .click(getTile({ restrictFloor: 'basement' }));
     $ground
-      .hover(setTileImg('img/Tile_g.png'), setTileImg('img/Tile_bgu.png'))
+      .hover(setTileImg('/static/img/Tile_g.png'), setTileImg('/static/img/Tile_bgu.png'))
       .click(getTile({ restrictFloor: 'ground' }));
     $upper
-      .hover(setTileImg('img/Tile_u.png'), setTileImg('img/Tile_bgu.png'))
+      .hover(setTileImg('/static/img/Tile_u.png'), setTileImg('/static/img/Tile_bgu.png'))
       .click(getTile({ restrictFloor: 'upper' }));
   }
 
@@ -324,7 +324,11 @@ class Game {
   static rollDice(e) {
     if (e.keyCode === 13) {
       const dice = parseInt(e.target.value, 10);
-      const images = ['img/dice_0.png', 'img/dice_1.png', 'img/dice_2.png'];
+      const images = [
+        '/static/img/dice_0.png',
+        '/static/img/dice_1.png',
+        '/static/img/dice_2.png',
+      ];
       const div = document.createElement('div');
       for (let i = 0; i < dice; i += 1) {
         const img = new Image();

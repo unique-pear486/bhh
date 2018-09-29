@@ -1,6 +1,6 @@
 /* eslint-env browser */
-/* globals $ Draggable Overlay Game characters */
-/* globals tiles events items omens pieces */
+/* globals $ Draggable Overlay Game io */
+/* globals characters tiles events items omens pieces */
 
 // select ui elements
 const ui = {};
@@ -40,10 +40,19 @@ ui.me = {
 };
 ui.hand = $('#hand')[0];
 
+// Set up the socket connection
+const socket = io();
+socket.on('error', error => console.log(error));
+// clean up before closing the window
+window.addEventListener(
+  'beforeunload',
+  socket.disconnect,
+);
+
 const game = new Game(ui, {
   tiles: { name: 'tiles', cards: tiles },
   events: { name: 'events', cards: events },
   items: { name: 'items', cards: items },
   omens: { name: 'omens', cards: omens },
   pieces: { name: 'pieces', cards: pieces },
-}, characters);
+}, characters, socket);

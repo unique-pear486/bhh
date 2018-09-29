@@ -4,33 +4,33 @@
   <meta charset="utf-8"/>
   <head>
     <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
-    <link href="css/index.css" rel="stylesheet">
+    <link href="/static/css/index.css" rel="stylesheet">
   <body>
     <div id="overlay" class="">
       <div id="overlay-title">
-        <img src="img/Betrayal_logo.png">
+        <img src="/static/img/Betrayal_logo.png">
       </div>
       <div id="overlay-content" style="height:50%;">
-        <img src="img/Betrayal_preloader.jpg" style="height:100%;min-height:600px">
+        <img src="/static/img/Betrayal_preloader.jpg" style="height:100%;min-height:600px">
       </div>
       <div id="overlay-text">
         Loading...
       </div>
-      <div id="overlay-exit" class="border hidd"><img src="img/exit.png" width=80></div>
+      <div id="overlay-exit" class="border hidd"><img src="/static/img/exit.png" width=80></div>
     </div>
     <div class="floor hidd" id="basement">
-      <img src="img/board_basement_landing.jpg">
+      <img src="/static/img/board_basement_landing.jpg">
     </div>
     <div class="floor" id="ground">
-      <img src="img/board_entrance_hall.png">
+      <img src="/static/img/board_entrance_hall.png">
     </div>
     <div class="floor hidd" id="upper">
-      <img src="img/board_upper_landing.jpg">
+      <img src="/static/img/board_upper_landing.jpg">
     </div>
     <div class="ui" id="tracker">
-      <img src="img/tracker.png"/>
+      <img src="/static/img/tracker.png"/>
       <div id="tracker-marker">
-        <img src="img/marker.png"/>
+        <img src="/static/img/marker.png"/>
       </div>
       <div id="haunt"></div>
     </div>
@@ -42,7 +42,7 @@
       </ul>
     </div>
     <div class="ui" id="tile-deck">
-      <img id="tile-img" src="img/Tile_.png" width="200" height="200"/>
+      <img id="tile-img" src="/static/img/Tile_.png" width="200" height="200"/>
       <div id="tile-upper" class="border"></div>
       <div id="tile-ground" class="border"></div>
       <div id="tile-basement" class="border"></div>
@@ -50,48 +50,49 @@
     <div class="ui" id="hand">
     </div>
     <div class="ui" id="event-deck">
-      <img src="img/event.jpg" width="155" height="79"/>
+      <img src="/static/img/event.jpg" width="155" height="79"/>
     </div>
     <div class="ui" id="item-deck">
-      <img src="img/item.jpg" width="155" height="79"/>
+      <img src="/static/img/item.jpg" width="155" height="79"/>
     </div>
     <div class="ui" id="omen-deck">
-      <img src="img/omen.jpg" width="155" height="79"/>
+      <img src="/static/img/omen.jpg" width="155" height="79"/>
     </div>
     <div class="ui border" id="dice">
-      <img src="img/dice.png" height="80">
+      <img src="/static/img/dice.png" height="80">
     </div>
     <div class="ui border" id="search">
-      <img src="img/search.png" height="80">
+      <img src="/static/img/search.png" height="80">
     </div>
     <div class="ui" id="character">
-      <img src="img/char_Brandon_Jaspers.png" width="365" />
+      <img src="/static/img/char_Brandon_Jaspers.png" width="365" />
       <div id="speed-container">
         <div id="speed-marker" class="attr-marker">
-          <img src="img/marker.png">
+          <img src="/static/img/marker.png">
         </div>
       </div>
       <div id="might-container">
         <div id="might-marker" class="attr-marker">
-          <img src="img/marker.png">
+          <img src="/static/img/marker.png">
         </div>
       </div>
       <div id="sanity-container">
         <div id="sanity-marker" class="attr-marker">
-          <img src="img/marker.png">
+          <img src="/static/img/marker.png">
         </div>
       </div>
       <div id="knowledge-container">
         <div id="knowledge-marker" class="attr-marker">
-          <img src="img/marker.png">
+          <img src="/static/img/marker.png">
         </div>
       </div>
     </div>
-    <script src="js/jquery.js"></script>
-    <script src="js/fuse.js"></script>
-    <script src="js/UI.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/index.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/fuse.js"></script>
+    <script src="/static/js/socket.io.js"></script>
+    <script src="/static/js/UI.js"></script>
+    <script src="/static/js/data.js"></script>
+    <script src="/static/js/game.js"></script>
+    <script src="/static/js/index.js"></script>
   </body>
 </html>
