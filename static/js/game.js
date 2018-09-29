@@ -436,9 +436,9 @@ class Game {
       textBox.type = 'text';
       textBox.value = '1';
       heroBtn.innerHTML = 'Hero';
-      heroBtn.id = 'hero-btn';
+      heroBtn.classList.add('hero-btn');
       traitorBtn.innerHTML = 'Traitor';
-      traitorBtn.id = 'traitor-btn';
+      traitorBtn.classList.add('traitor-btn');
       textBox.classList.add('choose-number');
       this.overlay.display('Choose your haunt...', i, '', true);
       this.overlay.text.appendChild(form);

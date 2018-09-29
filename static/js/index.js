@@ -131,13 +131,7 @@ socket.on('get-games', (msg) => {
   help.addEventListener('click', () => ui.helpDiv.classList.remove('hidd'));
 });
 
-
-let timeoutID;
 const showGameSelect = () => {
-  // remove event listeners
-  window.removeEventListener('load', showGameSelect);
-  window.clearTimeout(timeoutID);
-
   // remove the loading div (there to ensure images have finished loading
   // before the game starts
   $('#loader').remove();
@@ -145,12 +139,30 @@ const showGameSelect = () => {
   socket.emit('get-games');
 };
 
-// Open the game select window after all items are loaded or after 5 sec
-window.addEventListener('load', showGameSelect);
-timeoutID = window.setTimeout(showGameSelect, 5000);
+let timeoutID;
+const allowGameSelect = () => {
+  // remove event listeners
+  window.removeEventListener('load', allowGameSelect);
+  window.clearTimeout(timeoutID);
 
+  // add game select button
+  const startMenu = ui.overlay.text.firstElementChild;
+  startMenu.removeChild(startMenu.lastElementChild);
+  const gameSelect = document.createElement('div');
+  gameSelect.classList.add('traitor-btn');
+  gameSelect.textContent = 'Start';
+  gameSelect.addEventListener('click', showGameSelect);
+  startMenu.appendChild(gameSelect);
+};
+
+// Allow the game select window after all items are loaded or after 5 sec
+window.addEventListener('load', allowGameSelect);
+timeoutID = window.setTimeout(allowGameSelect, 5000);
 
 // Set up the help screen
+ui.overlay.text.firstElementChild.firstElementChild.addEventListener('click', () => {
+  ui.helpDiv.classList.remove('hidd');
+});
 ui.helpDiv.addEventListener('click', () => {
   ui.helpDiv.classList.add('hidd');
 });

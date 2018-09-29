@@ -34,6 +34,11 @@ body {
     width: 80%;
     font-style: italic;
 }
+#start-menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 #overlay-exit, #help-exit {
     position: absolute;
     top: 0;
@@ -255,7 +260,7 @@ img.character {
     max-width: 90vw;
     max-height: 70vh;
 }
-#traitor-btn {
+.traitor-btn {
     background: #8698b8;
     border: 2px solid #314668;
     width: 7em;
@@ -265,11 +270,11 @@ img.character {
     line-height: 2em;
     color: #314668;
 }
-#traitor-btn:hover {
+.traitor-btn:hover {
     background: #c4ccdc;
     cursor:pointer;
 }
-#hero-btn {
+.hero-btn {
     background: #b2d695;
     border: 2px solid #536C3F;
     width: 7em;
@@ -279,7 +284,7 @@ img.character {
     line-height: 2em;
     color: #2d3a22;
 }
-#hero-btn:hover {
+.hero-btn:hover {
     background: #ceecb6;
     cursor:pointer;
 }
@@ -287,7 +292,6 @@ img.character {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 90vw;
 }
 
 .game-select {
