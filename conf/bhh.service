@@ -1,0 +1,12 @@
+[Unit]
+Description=Betrayal at the House on the Hill
+
+[Service]
+Type=simple
+User=wiki
+WorkingDirectory=/var/www/bhh/
+ExecStart=/var/www/bhh/.venv/bin/python server.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
