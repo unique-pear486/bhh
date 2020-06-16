@@ -41,6 +41,24 @@ deactivate
 You'll need to adjust `bhh.service` (in particular, the service user name `wiki`), and place it in `/etc/systemd/system/`.
 And adjust `nginx.conf` (in particular the servername `localhost`) and save it as `/etc/nginx/conf.d/bhh.conf` or similar
 
+### Using docker
+Clone this repo to your computer with:
+```sh
+git clone https://github.com/unique-pear486/bhh.git
+```
+
+Build the docker image:
+```sh
+docker build . -t bhh:latest
+```
+
+Run the image with:
+```sh
+docker run --rm --detach -p 80:5060 bhh:latest
+```
+
+This will start the server on `http://127.0.0.1/`. You will need to make sure your computer is accessable on port 80 if you want to share with friends.
+
 ## Images
 You will still need a copy of the game to play this. You can either scan in the images and replace the placeholders in
 `/static/img`, or just look at the cards as you play.
